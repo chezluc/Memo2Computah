@@ -8,10 +8,12 @@ struct MobileRecorderApp: App {
     @StateObject private var launchCoordinator = RecordingLaunchCoordinator.shared
 
     init() {
+        let launchCoordinator = RecordingLaunchCoordinator.shared
         AppDependencyManager.shared.add {
-            RecordingLaunchCoordinator.shared
+            launchCoordinator
         }
         DropboxSessionManager.shared.configureIfNeeded()
+        GoogleDriveFolderManager.shared.configureIfNeeded()
     }
 
     var body: some Scene {
@@ -20,9 +22,15 @@ struct MobileRecorderApp: App {
                 .environmentObject(dropboxManager)
                 .environmentObject(launchCoordinator)
                 .onOpenURL { url in
+                    if GoogleDriveFolderManager.shared.handleRedirectURL(url) {
+                        return
+                    }
                     if !dropboxManager.handleRedirectURL(url) {
                         launchCoordinator.handle(url: url)
                     }
+                }
+                .task {
+                    await GoogleDriveFolderManager.shared.restorePreviousSignIn()
                 }
         }
     }

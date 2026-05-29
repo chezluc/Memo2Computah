@@ -15,6 +15,9 @@ packages:
   SwiftyDropbox:
     url: https://github.com/dropbox/SwiftyDropbox.git
     exactVersion: 9.2.0
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS.git
+    exactVersion: 9.1.0
   whisper:
     url: https://github.com/ggerganov/whisper.spm
     branch: master
@@ -35,6 +38,18 @@ targets:
         CFBundleDisplayName: LukeMobileRecoder
         NSMicrophoneUsageDescription: LukeMobileRecorder uses the microphone to record your voice and send recordings to your selected transcription folder.
         NSSpeechRecognitionUsageDescription: LukeMobileRecorder can show live speech text while you record so you can confirm what was captured before sending.
+        CFBundleURLTypes:
+          - CFBundleURLName: com.garnetuniverse.MobileRecorder.dropbox
+            CFBundleURLSchemes:
+              - db-5ly9ju548yuntzq
+          - CFBundleURLName: com.garnetuniverse.MobileRecorder.app
+            CFBundleURLSchemes:
+              - mobile-recorder
+        LSApplicationQueriesSchemes:
+          - dbapi-2
+          - dbapi-8-emm
+        UIBackgroundModes:
+          - audio
         UILaunchScreen:
           UIColorName: LaunchBackground
     settings:
@@ -75,9 +90,17 @@ targets:
           - CFBundleURLName: com.garnetuniverse.Memo2Computah.app
             CFBundleURLSchemes:
               - memo2computah
+          - CFBundleURLName: com.garnetuniverse.Memo2Computah.google
+            CFBundleURLSchemes:
+              - $(GOOGLE_OAUTH_REVERSED_CLIENT_ID)
+        GIDClientID: $(GOOGLE_OAUTH_CLIENT_ID)
         LSApplicationQueriesSchemes:
           - dbapi-2
           - dbapi-8-emm
+          - googlechrome
+          - googlechromes
+        UIBackgroundModes:
+          - audio
         UILaunchScreen:
           UIColorName: LaunchBackground
     settings:
@@ -95,6 +118,7 @@ targets:
       - target: Memo2ComputahControl
         embed: true
       - package: SwiftyDropbox
+      - package: GoogleSignIn
       - package: whisper
   Memo2ComputahControl:
     type: app-extension
@@ -105,6 +129,7 @@ targets:
       ProvisioningStyle: Automatic
     sources:
       - path: ../ios/Memo2ComputahControl
+      - path: ../ios/Memo2Computah/RecordingLaunchCoordinator.swift
     info:
       path: ../ios/Memo2ComputahControl/Info.plist
       properties:

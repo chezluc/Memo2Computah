@@ -1,12 +1,10 @@
 import SwiftUI
-import UniformTypeIdentifiers
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: RecordingViewModel
     @EnvironmentObject private var dropboxManager: DropboxSessionManager
     @State private var showFolderPicker = false
-    @State private var showGoogleDriveFolderPicker = false
 
     var body: some View {
         NavigationStack {
@@ -81,8 +79,17 @@ struct SettingsView: View {
                         Text("Folder")
                         Spacer()
                         Text(viewModel.googleDriveFolderDisplayName)
-                            .foregroundColor(viewModel.googleDriveFolderIsReady ? .secondary : .orange)
+                            .foregroundStyle(.secondary)
                             .multilineTextAlignment(.trailing)
+                    }
+
+                    if let account = GoogleDriveFolderManager.shared.accountDisplayName, viewModel.googleDriveFolderIsReady {
+                        HStack {
+                            Text("Account")
+                            Spacer()
+                            Text(account)
+                                .foregroundStyle(.secondary)
+                        }
                     }
 
                     if let googleDriveFolderError = viewModel.googleDriveFolderError {
@@ -92,25 +99,18 @@ struct SettingsView: View {
                     }
 
                     if viewModel.googleDriveFolderIsReady {
-                        Button("Choose Different Folder") {
-                            showGoogleDriveFolderPicker = true
-                        }
-                        .accessibilityIdentifier("chooseGoogleDriveFolderButton")
-
                         Button("Disconnect Google Drive", role: .destructive) {
                             viewModel.clearGoogleDriveFolder()
                         }
                         .accessibilityIdentifier("disconnectGoogleDriveButton")
                     } else {
                         Button("Connect Google Drive") {
-                            viewModel.deliveryMode = .googleDriveFiles
-                            viewModel.persistDeliveryMode()
-                            showGoogleDriveFolderPicker = true
+                            Task { await viewModel.connectGoogleDrive() }
                         }
                         .accessibilityIdentifier("connectGoogleDriveButton")
                     }
 
-                    Text("This uses the Google Drive location in the iPhone Files app. Install Google Drive, enable it in Files, then choose the `auto.transcribe` folder.")
+                    Text("This signs in with Google and uploads recordings or text jobs to the `auto.transcribe` folder in Google Drive. The desktop app should watch that same synced folder.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
@@ -211,23 +211,11 @@ struct SettingsView: View {
                 DropboxFolderBrowserView(selectedPath: $dropboxManager.defaultFolderPath)
                     .environmentObject(dropboxManager)
             }
-            .fileImporter(
-                isPresented: $showGoogleDriveFolderPicker,
-                allowedContentTypes: [.folder],
-                allowsMultipleSelection: false
-            ) { result in
-                switch result {
-                case .success(let urls):
-                    guard let folderURL = urls.first else { return }
-                    viewModel.setGoogleDriveFolder(url: folderURL)
-                case .failure:
-                    break
-                }
-            }
             .task {
                 if dropboxManager.isLinked && dropboxManager.accountName == nil {
                     await dropboxManager.refreshAccountName()
                 }
+                viewModel.refreshGoogleDriveFolderStatus()
             }
             .onChange(of: dropboxManager.defaultFolderPath) { _, _ in
                 dropboxManager.persistDefaultFolder()
@@ -320,12 +308,12 @@ struct SettingsView: View {
     @ViewBuilder
     private var googleDriveDeliveryControls: some View {
         if viewModel.deliveryMode == .googleDriveFiles {
-            Button("Check Folder") {
-                Task { await viewModel.checkSelectedReceiver() }
+            Button(viewModel.googleDriveFolderIsReady ? "Reconnect Google Drive" : "Connect Google Drive") {
+                Task { await viewModel.connectGoogleDrive() }
             }
-            .accessibilityIdentifier("checkGoogleDriveFolderButton")
+            .accessibilityIdentifier("connectGoogleDriveDeliveryButton")
 
-            Text(viewModel.googleDriveFolderIsReady ? "Google Drive is connected to `\(viewModel.googleDriveFolderDisplayName)`." : "Connect Google Drive below before recording in this mode.")
+            Text(viewModel.googleDriveFolderIsReady ? "Google Drive uploads will go to `\(viewModel.googleDriveFolderDisplayName)`." : "Connect Google Drive before recording in this mode.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }

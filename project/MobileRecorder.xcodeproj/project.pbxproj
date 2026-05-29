@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		022C879D6693911188BB6573 /* CompanionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EF6A95BF937243F8E5A447 /* CompanionViewModel.swift */; };
+		062289C4F4EDDD09326AF3BC /* RecordingLaunchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7806C1D3EB0358A41C82C /* RecordingLaunchCoordinator.swift */; };
+		11C65DD42BC7B5E5F98911AE /* GoogleDriveFolderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597910654950A2D2B2981F28 /* GoogleDriveFolderManager.swift */; };
 		227D3D5F64D3D1864C806A69 /* WatcherStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708E9438FD2B7167E93D727 /* WatcherStatus.swift */; };
 		2D1826650E66EF624055615A /* CompanionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB39073674BB88E11FB5F5D /* CompanionViewModel.swift */; };
 		36DC3E7E0CA1A084AA71D338 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9AEC4506B62604781E0289D5 /* README.md */; };
@@ -33,8 +35,8 @@
 		8DF0949DEB16B9915FE36BA8 /* RecordingLaunchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E176FC2110A88A940795C3A /* RecordingLaunchCoordinator.swift */; };
 		9076E19844AE6F3B1B3AEBC6 /* DropboxSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA92512336437FA08FCCCF05 /* DropboxSessionManager.swift */; };
 		931D1EA5FA435129D0E5A653 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEAE5DBBBE8ED166566BD47 /* ContentView.swift */; };
-		A1B2C3D4E5F60718293A4B5D /* GoogleDriveFolderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5C /* GoogleDriveFolderManager.swift */; };
 		A409AF3674A4E5E6D0286806 /* CompanionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00A23CCFE51FC0B0E5F75C3 /* CompanionSettingsView.swift */; };
+		AB532E2E5FECA479AF78227D /* whisper in Frameworks */ = {isa = PBXBuildFile; productRef = FD398CC63AB2418596A512F5 /* whisper */; };
 		ACD7D01709A6B07602FA302B /* AutoTranscribeCompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674636B2F0C79FB35CD59B78 /* AutoTranscribeCompanionApp.swift */; };
 		B0564E0149C5020C0EA5397B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00F80686B9535FB08C0729A6 /* Assets.xcassets */; };
 		B295271B684025D11C3985DD /* ggml-tiny.bin in Resources */ = {isa = PBXBuildFile; fileRef = 45858B0EDC0AB21CBE06521E /* ggml-tiny.bin */; };
@@ -44,8 +46,7 @@
 		BE6F3E3A2492E0359788F9F6 /* WatcherStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC9F055458E80ABAC451ADB /* WatcherStatus.swift */; };
 		BFD19B862105F48901E97E8C /* whisper in Frameworks */ = {isa = PBXBuildFile; productRef = BE023DAF2CC52DCB2D91F6AE /* whisper */; };
 		C0B970FFF397EC163AED9774 /* RecordingLaunchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7806C1D3EB0358A41C82C /* RecordingLaunchCoordinator.swift */; };
-		C23E4F7B9F0C4C2EA1B5D601 /* RecordingLaunchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7806C1D3EB0358A41C82C /* RecordingLaunchCoordinator.swift */; };
-		C37EDCE27ED2E96379FD9319 /* whisper in Frameworks */ = {isa = PBXBuildFile; productRef = FD398CC63AB2418596A512F5 /* whisper */; };
+		C37EDCE27ED2E96379FD9319 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = CCC628C8CC6EFB3CE0A69542 /* GoogleSignIn */; };
 		C897317DCA56034F2D415696 /* MobileRecorderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB7A4FC90040C558A58C1B2 /* MobileRecorderApp.swift */; };
 		CEECBC5B8FF8B0D6FDB2EB5A /* CompanionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C6FD85618AC1A8B81B9E1D /* CompanionSettingsView.swift */; };
 		DB9E36A43A5DE9CCD96A90C9 /* LocalWhisperTranscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6591E7BA193D5D665D6ED95 /* LocalWhisperTranscriber.swift */; };
@@ -119,6 +120,7 @@
 		48AE9368314895A41CDA5F7C /* RouteConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteConfiguration.swift; sourceTree = "<group>"; };
 		52CE002F9D6FCF4793C014EE /* ggml-tiny.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-tiny.bin"; sourceTree = "<group>"; };
 		52E4B8FB990725E437F4833F /* Memo2ComputahDesktop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memo2ComputahDesktop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		597910654950A2D2B2981F28 /* GoogleDriveFolderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveFolderManager.swift; sourceTree = "<group>"; };
 		5BC9F055458E80ABAC451ADB /* WatcherStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatcherStatus.swift; sourceTree = "<group>"; };
 		674636B2F0C79FB35CD59B78 /* AutoTranscribeCompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoTranscribeCompanionApp.swift; sourceTree = "<group>"; };
 		674E77012D653A84A1B8A210 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -132,7 +134,6 @@
 		99E975A3D34365345A15B8F2 /* MobileRecorderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileRecorderApp.swift; sourceTree = "<group>"; };
 		9AEC4506B62604781E0289D5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9DB1094D0F6766D70BE34660 /* RouteConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteConfiguration.swift; sourceTree = "<group>"; };
-		A1B2C3D4E5F60718293A4B5C /* GoogleDriveFolderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveFolderManager.swift; sourceTree = "<group>"; };
 		A88E9282FF4A7D5C3555B3E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AA784419DFA97D976127EEF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AAEAE5DBBBE8ED166566BD47 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -161,7 +162,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8717700826B1284B62E6B344 /* SwiftyDropbox in Frameworks */,
-				C37EDCE27ED2E96379FD9319 /* whisper in Frameworks */,
+				C37EDCE27ED2E96379FD9319 /* GoogleSignIn in Frameworks */,
+				AB532E2E5FECA479AF78227D /* whisper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,7 +256,7 @@
 				DBE5C764DAA04AF5FC1F1FE2 /* Assets.xcassets */,
 				D7318C2B61A7C7537454BFC3 /* ContentView.swift */,
 				0788CDF4D744CC46C14CBB1C /* DropboxSessionManager.swift */,
-				A1B2C3D4E5F60718293A4B5C /* GoogleDriveFolderManager.swift */,
+				597910654950A2D2B2981F28 /* GoogleDriveFolderManager.swift */,
 				674E77012D653A84A1B8A210 /* Info.plist */,
 				C6591E7BA193D5D665D6ED95 /* LocalWhisperTranscriber.swift */,
 				99E975A3D34365345A15B8F2 /* MobileRecorderApp.swift */,
@@ -410,6 +412,7 @@
 			name = Memo2Computah;
 			packageProductDependencies = (
 				B148960720E3A183586B6756 /* SwiftyDropbox */,
+				CCC628C8CC6EFB3CE0A69542 /* GoogleSignIn */,
 				FD398CC63AB2418596A512F5 /* whisper */,
 			);
 			productName = Memo2Computah;
@@ -503,6 +506,7 @@
 			mainGroup = 9893DD9F592AB97047181093;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				93F84E2EFFB422CF10E4BE65 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				7B2C6EEBDCDDF6F5D210FB31 /* XCRemoteSwiftPackageReference "SwiftyDropbox" */,
 				E15E1C60FFE5F534296849CF /* XCRemoteSwiftPackageReference "whisper.spm" */,
 			);
@@ -565,8 +569,8 @@
 			files = (
 				892B1ED8AE52963E2E055C18 /* ContentView.swift in Sources */,
 				E82E9ACC82B676DBEE34C6E6 /* DropboxSessionManager.swift in Sources */,
+				11C65DD42BC7B5E5F98911AE /* GoogleDriveFolderManager.swift in Sources */,
 				DB9E36A43A5DE9CCD96A90C9 /* LocalWhisperTranscriber.swift in Sources */,
-				A1B2C3D4E5F60718293A4B5D /* GoogleDriveFolderManager.swift in Sources */,
 				422D5741613D14006DF3FA45 /* MobileRecorderApp.swift in Sources */,
 				C0B970FFF397EC163AED9774 /* RecordingLaunchCoordinator.swift in Sources */,
 				7038A9A7E99F3C5B34F6A445 /* RecordingViewModel.swift in Sources */,
@@ -632,7 +636,7 @@
 			files = (
 				3EBC0B612264508A0C13309F /* Memo2ComputahControlBundle.swift in Sources */,
 				B8D8C9D5C4F869F74C93B9A3 /* Memo2ComputahControlWidget.swift in Sources */,
-				C23E4F7B9F0C4C2EA1B5D601 /* RecordingLaunchCoordinator.swift in Sources */,
+				062289C4F4EDDD09326AF3BC /* RecordingLaunchCoordinator.swift in Sources */,
 				8CCA78B641096AFF64470F1C /* StartMemo2RecordingIntent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1105,6 +1109,14 @@
 				version = 9.2.0;
 			};
 		};
+		93F84E2EFFB422CF10E4BE65 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
+			requirement = {
+				kind = exactVersion;
+				version = 9.1.0;
+			};
+		};
 		E15E1C60FFE5F534296849CF /* XCRemoteSwiftPackageReference "whisper.spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ggerganov/whisper.spm";
@@ -1125,6 +1137,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E15E1C60FFE5F534296849CF /* XCRemoteSwiftPackageReference "whisper.spm" */;
 			productName = whisper;
+		};
+		CCC628C8CC6EFB3CE0A69542 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 93F84E2EFFB422CF10E4BE65 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
 		EF4AA32211B2ACB34F11B039 /* SwiftyDropbox */ = {
 			isa = XCSwiftPackageProductDependency;

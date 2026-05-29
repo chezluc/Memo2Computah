@@ -134,7 +134,7 @@ final class RecordingViewModel: NSObject, ObservableObject {
             case .dropbox:
                 return "Use the existing Dropbox folder handoff."
             case .googleDriveFiles:
-                return "Save recordings and text jobs into a Google Drive folder selected through Files."
+                return "Sign in to Google Drive and upload jobs into the `auto.transcribe` folder."
             case .lanHTTP:
                 return "Upload directly to Memo2Computah Desktop on the same Wi-Fi network."
             case .cloudflareHTTP:
@@ -545,15 +545,26 @@ final class RecordingViewModel: NSObject, ObservableObject {
     }
 
     func setGoogleDriveFolder(url: URL) {
+        _ = url
+        googleDriveFolderError = "Google Drive now uses sign-in instead of the Files folder picker."
+        refreshGoogleDriveFolderStatus()
+        if deliveryMode == .googleDriveFiles {
+            statusText = "Connect Google Drive"
+        }
+    }
+
+    func connectGoogleDrive() async {
+        deliveryMode = .googleDriveFiles
+        persistDeliveryMode()
+        statusText = "Connecting Google Drive..."
         do {
-            try googleDriveManager.savePickedFolder(url)
+            try await googleDriveManager.connect()
             refreshGoogleDriveFolderStatus()
-            if deliveryMode == .googleDriveFiles {
-                statusText = "Google Drive folder ready"
-            }
+            statusText = "Google Drive connected"
         } catch {
+            refreshGoogleDriveFolderStatus()
             googleDriveFolderError = error.localizedDescription
-            statusText = "Google Drive folder failed"
+            statusText = "Google Drive failed"
         }
     }
 
@@ -561,7 +572,7 @@ final class RecordingViewModel: NSObject, ObservableObject {
         googleDriveManager.clearFolder()
         refreshGoogleDriveFolderStatus()
         if deliveryMode == .googleDriveFiles {
-            statusText = "Choose Google Drive folder"
+            statusText = "Connect Google Drive"
         }
     }
 
@@ -2162,7 +2173,7 @@ final class RecordingViewModel: NSObject, ObservableObject {
         }
 
         if deliveryMode == .googleDriveFiles {
-            return try googleDriveManager.uploadRecording(
+            return try await googleDriveManager.uploadRecording(
                 fileURL: fileURL,
                 submitAfterPaste: submitAfterPaste,
                 routeTarget: routeTargetValue,
@@ -2271,7 +2282,7 @@ final class RecordingViewModel: NSObject, ObservableObject {
         }
 
         if deliveryMode == .googleDriveFiles {
-            return try googleDriveManager.uploadRecording(
+            return try await googleDriveManager.uploadRecording(
                 fileURL: fileURL,
                 submitAfterPaste: submitAfterPasteValue,
                 routeTarget: routeTargetValue,
@@ -2434,7 +2445,7 @@ final class RecordingViewModel: NSObject, ObservableObject {
                 throw RecorderError.serverError("Google Drive delivery is one-way for now. Use Dropbox, LAN, or Cloudflare for response mode.")
             }
 
-            let jobID = try googleDriveManager.uploadTypedMessage(
+            let jobID = try await googleDriveManager.uploadTypedMessage(
                 message: message,
                 submitAfterPaste: submitAfterPaste,
                 routeTarget: routeTarget,
