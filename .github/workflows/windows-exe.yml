@@ -1,0 +1,45 @@
+name: Build Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "pc-v*"
+    paths:
+      - "windows/**"
+      - ".github/workflows/windows-exe.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Memo2ComputahPC.exe
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build tools
+        run: python -m pip install --upgrade pip pyinstaller
+
+      - name: Build EXE
+        run: python -m PyInstaller --noconsole --onefile --name Memo2ComputahPC windows/memo2computah_pc.py
+
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Memo2ComputahPC-windows-exe
+          path: dist/Memo2ComputahPC.exe
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/pc-v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${{ github.ref_name }}" dist/Memo2ComputahPC.exe --title "Memo2Computah PC ${{ github.ref_name }}" --notes "Windows companion EXE for Memo2Computah."
