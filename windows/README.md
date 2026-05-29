@@ -45,6 +45,8 @@ Supported routes in this build:
 
 The app focuses a matching window title before sending paste. Defaults are `Codex` and `Claude`, and both can be changed in the Routes section of the app.
 
+Each route also has an optional app picker. If the matching window is not already open, Memo2Computah PC can launch the selected `.exe`, wait briefly, then try to focus that route again before pasting.
+
 ## Build Locally
 
 ```powershell

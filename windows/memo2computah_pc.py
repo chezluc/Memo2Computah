@@ -62,6 +62,10 @@ def unique_path(path: Path) -> Path:
     return parent / f"{stem}-{timestamp()}{suffix}"
 
 
+def powershell_single_quote(value: str) -> str:
+    return "'" + value.replace("'", "''") + "'"
+
+
 @dataclass
 class CompanionConfig:
     watch_folder: str
@@ -69,7 +73,9 @@ class CompanionConfig:
     auto_paste: bool
     press_enter_after_paste: bool
     codex_window_title: str
+    codex_exe_path: str
     claude_window_title: str
+    claude_exe_path: str
     poll_seconds: float
 
     @staticmethod
@@ -80,7 +86,9 @@ class CompanionConfig:
             auto_paste=True,
             press_enter_after_paste=False,
             codex_window_title="Codex",
+            codex_exe_path="",
             claude_window_title="Claude",
+            claude_exe_path="",
             poll_seconds=2.0,
         )
 
@@ -111,7 +119,9 @@ class ConfigStore:
             auto_paste=bool(raw.get("auto_paste", defaults.auto_paste)),
             press_enter_after_paste=bool(raw.get("press_enter_after_paste", defaults.press_enter_after_paste)),
             codex_window_title=str(raw.get("codex_window_title") or defaults.codex_window_title),
+            codex_exe_path=str(raw.get("codex_exe_path") or defaults.codex_exe_path),
             claude_window_title=str(raw.get("claude_window_title") or defaults.claude_window_title),
+            claude_exe_path=str(raw.get("claude_exe_path") or defaults.claude_exe_path),
             poll_seconds=float(raw.get("poll_seconds", defaults.poll_seconds)),
         )
 
@@ -342,16 +352,27 @@ class FolderWatcher:
             return
         normalized = route_target.strip().lower().split(":", 1)[0]
         title = None
+        exe_path = None
         if normalized == "codex":
             title = config.codex_window_title
+            exe_path = config.codex_exe_path
         elif normalized == "claude":
             title = config.claude_window_title
+            exe_path = config.claude_exe_path
         if not title:
             return
-        escaped_title = title.replace("'", "''")
+
+        quoted_title = powershell_single_quote(title)
+        quoted_exe_path = powershell_single_quote(exe_path or "")
         script = (
             "$wshell = New-Object -ComObject wscript.shell; "
-            f"$wshell.AppActivate('{escaped_title}') | Out-Null; "
+            f"$activated = $wshell.AppActivate({quoted_title}); "
+            f"$exePath = {quoted_exe_path}; "
+            "if (-not $activated -and $exePath -and (Test-Path -LiteralPath $exePath)) { "
+            "Start-Process -FilePath $exePath; "
+            "Start-Sleep -Milliseconds 1500; "
+            f"$wshell.AppActivate({quoted_title}) | Out-Null; "
+            "} "
             "Start-Sleep -Milliseconds 250"
         )
         subprocess.run(["powershell", "-NoProfile", "-Command", script], check=False, timeout=10)
@@ -361,7 +382,7 @@ class Memo2App:
     def __init__(self) -> None:
         self.root = Tk()
         self.root.title(APP_NAME)
-        self.root.geometry("760x520")
+        self.root.geometry("860x620")
         self.store = ConfigStore()
         self.config = self.store.load()
         self.log_queue: queue.Queue[str] = queue.Queue()
@@ -373,7 +394,9 @@ class Memo2App:
         self.auto_paste = BooleanVar(value=self.config.auto_paste)
         self.press_enter = BooleanVar(value=self.config.press_enter_after_paste)
         self.codex_window_title = StringVar(value=self.config.codex_window_title)
+        self.codex_exe_path = StringVar(value=self.config.codex_exe_path)
         self.claude_window_title = StringVar(value=self.config.claude_window_title)
+        self.claude_exe_path = StringVar(value=self.config.claude_exe_path)
 
         self.build_ui()
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
@@ -417,10 +440,8 @@ class Memo2App:
 
         routes = ttk.LabelFrame(outer, text="Routes")
         routes.pack(fill="x", pady=(0, 12))
-        ttk.Label(routes, text="Codex window title").grid(row=0, column=0, sticky="w", padx=8, pady=(8, 4))
-        ttk.Entry(routes, textvariable=self.codex_window_title).grid(row=0, column=1, sticky="ew", padx=8, pady=(8, 4))
-        ttk.Label(routes, text="Claude window title").grid(row=1, column=0, sticky="w", padx=8, pady=(4, 8))
-        ttk.Entry(routes, textvariable=self.claude_window_title).grid(row=1, column=1, sticky="ew", padx=8, pady=(4, 8))
+        self.add_route_picker(routes, 0, "Codex", self.codex_window_title, self.codex_exe_path)
+        self.add_route_picker(routes, 2, "Claude", self.claude_window_title, self.claude_exe_path)
         routes.columnconfigure(1, weight=1)
 
         controls = ttk.Frame(outer)
@@ -452,9 +473,31 @@ class Memo2App:
             auto_paste=bool(self.auto_paste.get()),
             press_enter_after_paste=bool(self.press_enter.get()),
             codex_window_title=self.codex_window_title.get().strip() or "Codex",
+            codex_exe_path=self.codex_exe_path.get().strip(),
             claude_window_title=self.claude_window_title.get().strip() or "Claude",
+            claude_exe_path=self.claude_exe_path.get().strip(),
             poll_seconds=2.0,
         )
+
+    def add_route_picker(self, parent, row: int, label: str, title_var: StringVar, path_var: StringVar) -> None:
+        ttk.Label(parent, text=f"{label} window title").grid(row=row, column=0, sticky="w", padx=8, pady=(8, 2))
+        ttk.Entry(parent, textvariable=title_var).grid(row=row, column=1, columnspan=2, sticky="ew", padx=8, pady=(8, 2))
+        ttk.Label(parent, text=f"{label} app").grid(row=row + 1, column=0, sticky="w", padx=8, pady=(2, 8))
+        ttk.Entry(parent, textvariable=path_var).grid(row=row + 1, column=1, sticky="ew", padx=8, pady=(2, 8))
+        ttk.Button(
+            parent,
+            text="Browse...",
+            command=lambda: self.choose_route_app(path_var),
+        ).grid(row=row + 1, column=2, sticky="e", padx=8, pady=(2, 8))
+
+    def choose_route_app(self, path_var: StringVar) -> None:
+        selected = filedialog.askopenfilename(
+            title="Choose route app",
+            filetypes=[("Windows apps", "*.exe"), ("All files", "*.*")],
+        )
+        if selected:
+            path_var.set(selected)
+            self.save_settings()
 
     def choose_folder(self) -> None:
         selected = filedialog.askdirectory(initialdir=self.watch_folder.get() or str(Path.home()))
