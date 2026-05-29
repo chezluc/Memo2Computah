@@ -1,91 +1,23 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: RecordingViewModel
     @EnvironmentObject private var dropboxManager: DropboxSessionManager
     @State private var showFolderPicker = false
+    @State private var showGoogleDriveFolderPicker = false
 
     var body: some View {
         NavigationStack {
             List {
                 Section("Delivery") {
-                    Picker("Mode", selection: $viewModel.deliveryMode) {
-                        ForEach(RecordingViewModel.DeliveryMode.allCases) { mode in
-                            Text(mode.label).tag(mode)
-                        }
-                    }
-                    .accessibilityIdentifier("deliveryModePicker")
-
-                    Text(viewModel.deliveryMode.detail)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-
-                    HStack {
-                        Text("Receiver")
-                        Spacer()
-                        Text(viewModel.receiverReachability.label)
-                            .foregroundStyle(receiverReachabilityColor)
-                    }
-
-                    Text(viewModel.receiverReachability.detail)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                        .textSelection(.enabled)
-
-                    if viewModel.deliveryMode == .lanHTTP {
-                        TextField("LAN receiver URL", text: $viewModel.serverURLString)
-                            .textInputAutocapitalization(.never)
-                            .keyboardType(.URL)
-                            .autocorrectionDisabled()
-                            .accessibilityIdentifier("lanReceiverURLField")
-
-                        Text("Use the exact LAN URL shown in Memo2Computah Desktop. On the current Wi-Fi, that should look like `\(RecordingViewModel.defaultLANServerURLString)`.")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                    }
-
-                    if viewModel.deliveryMode == .cloudflareHTTP {
-                        TextField("Cloudflare tunnel URL", text: $viewModel.cloudflareServerURLString)
-                            .textInputAutocapitalization(.never)
-                            .keyboardType(.URL)
-                            .autocorrectionDisabled()
-                            .accessibilityIdentifier("cloudflareReceiverURLField")
-
-                        Text("Use the public Cloudflare tunnel URL that forwards to the Memo2Computah Desktop receiver.")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text("Cloudflare quick setup")
-                                .font(.footnote.weight(.semibold))
-
-                            Text("Start the receiver in Memo2Computah Desktop, then run a tunnel to the local receiver port. Use the resulting `https://...trycloudflare.com` URL here.")
-                                .font(.footnote)
-                                .foregroundStyle(.secondary)
-
-                            Text("cloudflared tunnel --url http://127.0.0.1:8943")
-                                .font(.caption.monospaced())
-                                .textSelection(.enabled)
-                        }
-                    }
-
-                    if viewModel.deliveryMode != .dropbox {
-                        SecureField("Receiver API token", text: $viewModel.directTextAPIToken)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
-                            .accessibilityIdentifier("receiverAPITokenField")
-
-                        Text("Use the same token shown in Memo2Computah Desktop. This protects LAN and Cloudflare uploads.")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-
-                        Button("Check Receiver") {
-                            Task { await viewModel.checkSelectedReceiver() }
-                        }
-                        .disabled(viewModel.receiverReachability == .checking)
-                        .accessibilityIdentifier("checkReceiverButton")
-                    }
+                    deliveryModePicker
+                    receiverStatus
+                    lanDeliveryControls
+                    googleDriveDeliveryControls
+                    cloudflareDeliveryControls
+                    httpReceiverControls
                 }
 
                 Section("Dropbox") {
@@ -135,6 +67,52 @@ struct SettingsView: View {
                         }
                         .accessibilityIdentifier("connectDropboxButton")
                     }
+                }
+
+                Section("Google Drive") {
+                    HStack {
+                        Text("Status")
+                        Spacer()
+                        Text(viewModel.googleDriveFolderIsReady ? "Connected" : "Not connected")
+                            .foregroundStyle(viewModel.googleDriveFolderIsReady ? .green : .secondary)
+                    }
+
+                    HStack {
+                        Text("Folder")
+                        Spacer()
+                        Text(viewModel.googleDriveFolderDisplayName)
+                            .foregroundColor(viewModel.googleDriveFolderIsReady ? .secondary : .orange)
+                            .multilineTextAlignment(.trailing)
+                    }
+
+                    if let googleDriveFolderError = viewModel.googleDriveFolderError {
+                        Text(googleDriveFolderError)
+                            .font(.footnote)
+                            .foregroundStyle(.red)
+                    }
+
+                    if viewModel.googleDriveFolderIsReady {
+                        Button("Choose Different Folder") {
+                            showGoogleDriveFolderPicker = true
+                        }
+                        .accessibilityIdentifier("chooseGoogleDriveFolderButton")
+
+                        Button("Disconnect Google Drive", role: .destructive) {
+                            viewModel.clearGoogleDriveFolder()
+                        }
+                        .accessibilityIdentifier("disconnectGoogleDriveButton")
+                    } else {
+                        Button("Connect Google Drive") {
+                            viewModel.deliveryMode = .googleDriveFiles
+                            viewModel.persistDeliveryMode()
+                            showGoogleDriveFolderPicker = true
+                        }
+                        .accessibilityIdentifier("connectGoogleDriveButton")
+                    }
+
+                    Text("This uses the Google Drive location in the iPhone Files app. Install Google Drive, enable it in Files, then choose the `auto.transcribe` folder.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                 }
 
                 Section("Behavior") {
@@ -233,6 +211,19 @@ struct SettingsView: View {
                 DropboxFolderBrowserView(selectedPath: $dropboxManager.defaultFolderPath)
                     .environmentObject(dropboxManager)
             }
+            .fileImporter(
+                isPresented: $showGoogleDriveFolderPicker,
+                allowedContentTypes: [.folder],
+                allowsMultipleSelection: false
+            ) { result in
+                switch result {
+                case .success(let urls):
+                    guard let folderURL = urls.first else { return }
+                    viewModel.setGoogleDriveFolder(url: folderURL)
+                case .failure:
+                    break
+                }
+            }
             .task {
                 if dropboxManager.isLinked && dropboxManager.accountName == nil {
                     await dropboxManager.refreshAccountName()
@@ -268,11 +259,139 @@ struct SettingsView: View {
         }
     }
 
+    private var deliveryModePicker: some View {
+        Group {
+            Picker("Mode", selection: $viewModel.deliveryMode) {
+                ForEach(RecordingViewModel.DeliveryMode.allCases) { mode in
+                    Text(mode.label).tag(mode)
+                }
+            }
+            .accessibilityIdentifier("deliveryModePicker")
+
+            Text(viewModel.deliveryMode.detail)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private var receiverStatus: some View {
+        Group {
+            HStack {
+                Text("Receiver")
+                Spacer()
+                Text(viewModel.receiverReachability.label)
+                    .foregroundStyle(receiverReachabilityColor)
+            }
+
+            Text(viewModel.receiverReachability.detail)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .textSelection(.enabled)
+        }
+    }
+
+    @ViewBuilder
+    private var lanDeliveryControls: some View {
+        if viewModel.deliveryMode == .lanHTTP {
+            Picker("LAN receiver", selection: selectedLANReceiverBinding) {
+                ForEach(viewModel.lanReceiverProfiles) { profile in
+                    Text(profile.name).tag(profile.id)
+                }
+            }
+            .accessibilityIdentifier("lanReceiverPicker")
+
+            Button("Add LAN Receiver") {
+                viewModel.addLANReceiverProfile()
+            }
+            .accessibilityIdentifier("addLANReceiverButton")
+
+            TextField("LAN receiver URL", text: $viewModel.serverURLString)
+                .textInputAutocapitalization(.never)
+                .keyboardType(.URL)
+                .autocorrectionDisabled()
+                .accessibilityIdentifier("lanReceiverURLField")
+
+            Text("Use the exact LAN URL shown in Memo2Computah Desktop. On the current Wi-Fi, that should look like `\(RecordingViewModel.defaultLANServerURLString)`.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    @ViewBuilder
+    private var googleDriveDeliveryControls: some View {
+        if viewModel.deliveryMode == .googleDriveFiles {
+            Button("Check Folder") {
+                Task { await viewModel.checkSelectedReceiver() }
+            }
+            .accessibilityIdentifier("checkGoogleDriveFolderButton")
+
+            Text(viewModel.googleDriveFolderIsReady ? "Google Drive is connected to `\(viewModel.googleDriveFolderDisplayName)`." : "Connect Google Drive below before recording in this mode.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    @ViewBuilder
+    private var cloudflareDeliveryControls: some View {
+        if viewModel.deliveryMode == .cloudflareHTTP {
+            TextField("Cloudflare tunnel URL", text: $viewModel.cloudflareServerURLString)
+                .textInputAutocapitalization(.never)
+                .keyboardType(.URL)
+                .autocorrectionDisabled()
+                .accessibilityIdentifier("cloudflareReceiverURLField")
+
+            Text("Use the public Cloudflare tunnel URL that forwards to the Memo2Computah Desktop receiver.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Cloudflare quick setup")
+                    .font(.footnote.weight(.semibold))
+
+                Text("Start the receiver in Memo2Computah Desktop, then run a tunnel to the local receiver port. Use the resulting `https://...trycloudflare.com` URL here.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+
+                Text("cloudflared tunnel --url http://127.0.0.1:8943")
+                    .font(.caption.monospaced())
+                    .textSelection(.enabled)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var httpReceiverControls: some View {
+        if viewModel.deliveryMode == .lanHTTP || viewModel.deliveryMode == .cloudflareHTTP {
+            SecureField("Receiver API token", text: $viewModel.directTextAPIToken)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .accessibilityIdentifier("receiverAPITokenField")
+
+            Text("Use the same token shown in Memo2Computah Desktop. This protects LAN and Cloudflare uploads.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+
+            Button("Check Receiver") {
+                Task { await viewModel.checkSelectedReceiver() }
+            }
+            .disabled(viewModel.receiverReachability == .checking)
+            .accessibilityIdentifier("checkReceiverButton")
+        }
+    }
+
     private func quickRouteToggleBinding(route: RecordingViewModel.RouteTarget) -> Binding<Bool> {
         Binding {
             viewModel.isQuickRouteTarget(route)
         } set: { isIncluded in
             viewModel.setQuickRouteTarget(route, isIncluded: isIncluded)
+        }
+    }
+
+    private var selectedLANReceiverBinding: Binding<String> {
+        Binding {
+            viewModel.selectedLANReceiverID
+        } set: { receiverID in
+            viewModel.selectLANReceiver(id: receiverID)
         }
     }
 

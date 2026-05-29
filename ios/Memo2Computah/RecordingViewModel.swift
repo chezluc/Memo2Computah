@@ -97,7 +97,7 @@ final class RecordingViewModel: NSObject, ObservableObject {
 
         var label: String {
             switch self {
-            case .dropboxAudio: return "Dropbox audio"
+            case .dropboxAudio: return "Desktop audio"
             case .appleSpeechOnDevice: return "Apple Speech on device"
             }
         }
@@ -105,15 +105,16 @@ final class RecordingViewModel: NSObject, ObservableObject {
         var detail: String {
             switch self {
             case .dropboxAudio:
-                return "Record audio, upload it to Dropbox, and let the Mac companion transcribe and route it."
+                return "Record audio, send it through the selected delivery mode, and let the desktop companion transcribe and route it."
             case .appleSpeechOnDevice:
-                return "Use iPhone speech recognition locally, then upload the captured text to Dropbox for routing."
+                return "Use iPhone speech recognition locally, then send the captured text through the selected delivery mode for routing."
             }
         }
     }
 
     enum DeliveryMode: String, CaseIterable, Identifiable {
         case dropbox
+        case googleDriveFiles
         case lanHTTP
         case cloudflareHTTP
 
@@ -122,6 +123,7 @@ final class RecordingViewModel: NSObject, ObservableObject {
         var label: String {
             switch self {
             case .dropbox: return "Dropbox"
+            case .googleDriveFiles: return "Google Drive"
             case .lanHTTP: return "LAN HTTP"
             case .cloudflareHTTP: return "Cloudflare HTTP"
             }
@@ -131,6 +133,8 @@ final class RecordingViewModel: NSObject, ObservableObject {
             switch self {
             case .dropbox:
                 return "Use the existing Dropbox folder handoff."
+            case .googleDriveFiles:
+                return "Save recordings and text jobs into a Google Drive folder selected through Files."
             case .lanHTTP:
                 return "Upload directly to Memo2Computah Desktop on the same Wi-Fi network."
             case .cloudflareHTTP:
@@ -196,6 +200,11 @@ final class RecordingViewModel: NSObject, ObservableObject {
     @Published var cloudflareServerURLString: String
     @Published var directTextServerURLString: String
     @Published var directTextAPIToken: String
+    @Published var lanReceiverProfiles: [LANReceiverProfile]
+    @Published var selectedLANReceiverID: String
+    @Published private(set) var googleDriveFolderDisplayName: String
+    @Published private(set) var googleDriveFolderIsReady: Bool
+    @Published private(set) var googleDriveFolderError: String?
     @Published var submitAfterPaste: Bool
     @Published var textResponseModeEnabled: Bool
     @Published var routeTarget: RouteTarget
@@ -249,15 +258,27 @@ final class RecordingViewModel: NSObject, ObservableObject {
     private var appIsActive = true
     private var notificationObservers: [NSObjectProtocol] = []
     private let dropboxManager = DropboxSessionManager.shared
+    private let googleDriveManager = GoogleDriveFolderManager.shared
 
     override init() {
         let storedDeliveryMode = UserDefaults.standard.string(forKey: Self.deliveryModeDefaultsKey).flatMap(DeliveryMode.init(rawValue:)) ?? .dropbox
         self.deliveryMode = storedDeliveryMode
         let storedServerURL = UserDefaults.standard.string(forKey: Self.serverURLDefaultsKey)
-        self.serverURLString = Self.normalizedLANServerURL(storedServerURL)
+        let normalizedStoredServerURL = Self.normalizedLANServerURL(storedServerURL)
+        let storedLANReceiverProfiles = Self.storedLANReceiverProfiles(defaultURL: normalizedStoredServerURL)
+        let storedSelectedLANReceiverID = UserDefaults.standard.string(forKey: Self.selectedLANReceiverIDDefaultsKey)
+        let selectedLANReceiverID = storedLANReceiverProfiles.contains { $0.id == storedSelectedLANReceiverID }
+            ? storedSelectedLANReceiverID!
+            : storedLANReceiverProfiles[0].id
+        self.lanReceiverProfiles = storedLANReceiverProfiles
+        self.selectedLANReceiverID = selectedLANReceiverID
+        self.serverURLString = storedLANReceiverProfiles.first { $0.id == selectedLANReceiverID }?.urlString.nonEmpty ?? normalizedStoredServerURL
         self.cloudflareServerURLString = UserDefaults.standard.string(forKey: Self.cloudflareServerURLDefaultsKey) ?? ""
         self.directTextServerURLString = UserDefaults.standard.string(forKey: Self.directTextServerURLDefaultsKey) ?? ""
         self.directTextAPIToken = Self.readDirectTextAPITokenWithBundledFallback()
+        self.googleDriveFolderDisplayName = googleDriveManager.folderDisplayName
+        self.googleDriveFolderIsReady = googleDriveManager.isReadyForUpload
+        self.googleDriveFolderError = googleDriveManager.lastErrorMessage
         self.submitAfterPaste = UserDefaults.standard.object(forKey: Self.submitAfterPasteDefaultsKey) as? Bool ?? true
         self.textResponseModeEnabled = false
         let storedRoute = UserDefaults.standard.string(forKey: Self.routeTargetDefaultsKey).flatMap(RouteTarget.init(rawValue:)) ?? .automatic
@@ -282,6 +303,8 @@ final class RecordingViewModel: NSObject, ObservableObject {
 
     private static let deliveryModeDefaultsKey = "memo2Computah.deliveryMode"
     private static let serverURLDefaultsKey = "memo2Computah.serverURL"
+    private static let lanReceiverProfilesDefaultsKey = "memo2Computah.lanReceiverProfiles"
+    private static let selectedLANReceiverIDDefaultsKey = "memo2Computah.selectedLANReceiverID"
     private static let cloudflareServerURLDefaultsKey = "memo2Computah.cloudflareServerURL"
     private static let directTextServerURLDefaultsKey = "memo2Computah.directTextServerURL"
     private static let directTextAPITokenService = "com.garnetuniverse.Memo2Computah.directTextAPIToken"
@@ -310,7 +333,10 @@ final class RecordingViewModel: NSObject, ObservableObject {
     ]
 
     private var shouldUsePhoneTranscriptionForNewRecording: Bool {
-        canSubmitTextJob && appIsActive && (textResponseModeEnabled || voiceCallModeEnabled || callSessionActive)
+        canSubmitTextJob
+            && deliveryMode != .googleDriveFiles
+            && appIsActive
+            && (textResponseModeEnabled || voiceCallModeEnabled || callSessionActive)
     }
 
     private var shouldUseAppleSpeechForNormalRecording: Bool {
@@ -334,16 +360,22 @@ final class RecordingViewModel: NSObject, ObservableObject {
     }
 
     private var canSubmitTextJob: Bool {
-        isDirectTextTransportReady || dropboxManager.isReadyForUpload
+        isDirectTextTransportReady || dropboxManager.isReadyForUpload || isGoogleDriveFilesTransportReady
     }
 
     private var isDirectTextTransportReady: Bool {
-        deliveryMode != .dropbox && activeHTTPBaseURL() != nil
+        deliveryMode == .lanHTTP || deliveryMode == .cloudflareHTTP
+            ? activeHTTPBaseURL() != nil
+            : false
+    }
+
+    private var isGoogleDriveFilesTransportReady: Bool {
+        deliveryMode == .googleDriveFiles && googleDriveManager.isReadyForUpload
     }
 
     var selectedHTTPDeliveryURLString: String {
         switch deliveryMode {
-        case .dropbox:
+        case .dropbox, .googleDriveFiles:
             return ""
         case .lanHTTP:
             return serverURLString.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -354,14 +386,17 @@ final class RecordingViewModel: NSObject, ObservableObject {
 
     func persistDeliveryMode() {
         UserDefaults.standard.set(deliveryMode.rawValue, forKey: Self.deliveryModeDefaultsKey)
-        receiverReachability = deliveryMode == .dropbox ? .notChecked : .notChecked
+        receiverReachability = .notChecked
         if deliveryMode == .lanHTTP {
             statusText = "Check receiver before recording"
+        } else if deliveryMode == .googleDriveFiles, !googleDriveManager.isReadyForUpload {
+            statusText = "Choose Google Drive folder"
         }
     }
 
     func persistServerURL() {
         UserDefaults.standard.set(serverURLString, forKey: Self.serverURLDefaultsKey)
+        updateSelectedLANReceiverURL(serverURLString)
         if deliveryMode == .lanHTTP {
             receiverReachability = .notChecked
         }
@@ -375,10 +410,18 @@ final class RecordingViewModel: NSObject, ObservableObject {
     }
 
     func checkSelectedReceiver() async {
-        guard deliveryMode != .dropbox else {
+        if deliveryMode == .dropbox {
             receiverReachability = dropboxManager.isReadyForUpload
                 ? .ready("Dropbox is connected.")
                 : .offline("Dropbox is not connected.")
+            return
+        }
+
+        if deliveryMode == .googleDriveFiles {
+            refreshGoogleDriveFolderStatus()
+            receiverReachability = googleDriveFolderIsReady
+                ? .ready("Google Drive folder is selected.")
+                : .offline("Choose a Google Drive folder in Files.")
             return
         }
 
@@ -471,6 +514,63 @@ final class RecordingViewModel: NSObject, ObservableObject {
         Self.saveDirectTextAPIToken(directTextAPIToken)
     }
 
+    func selectLANReceiver(id: String) {
+        guard let profile = lanReceiverProfiles.first(where: { $0.id == id }) else { return }
+        selectedLANReceiverID = id
+        serverURLString = profile.urlString
+        UserDefaults.standard.set(id, forKey: Self.selectedLANReceiverIDDefaultsKey)
+        persistServerURL()
+        receiverReachability = .notChecked
+    }
+
+    func addLANReceiverProfile() {
+        let number = lanReceiverProfiles.count + 1
+        let profile = LANReceiverProfile(
+            id: UUID().uuidString,
+            name: "Computer \(number)",
+            urlString: serverURLString.trimmingCharacters(in: .whitespacesAndNewlines)
+        )
+        lanReceiverProfiles.append(profile)
+        selectedLANReceiverID = profile.id
+        persistLANReceiverProfiles()
+        UserDefaults.standard.set(profile.id, forKey: Self.selectedLANReceiverIDDefaultsKey)
+    }
+
+    func updateSelectedLANReceiverURL(_ urlString: String) {
+        guard let index = lanReceiverProfiles.firstIndex(where: { $0.id == selectedLANReceiverID }) else { return }
+        let trimmedURL = urlString.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard lanReceiverProfiles[index].urlString != trimmedURL else { return }
+        lanReceiverProfiles[index].urlString = trimmedURL
+        persistLANReceiverProfiles()
+    }
+
+    func setGoogleDriveFolder(url: URL) {
+        do {
+            try googleDriveManager.savePickedFolder(url)
+            refreshGoogleDriveFolderStatus()
+            if deliveryMode == .googleDriveFiles {
+                statusText = "Google Drive folder ready"
+            }
+        } catch {
+            googleDriveFolderError = error.localizedDescription
+            statusText = "Google Drive folder failed"
+        }
+    }
+
+    func clearGoogleDriveFolder() {
+        googleDriveManager.clearFolder()
+        refreshGoogleDriveFolderStatus()
+        if deliveryMode == .googleDriveFiles {
+            statusText = "Choose Google Drive folder"
+        }
+    }
+
+    func refreshGoogleDriveFolderStatus() {
+        googleDriveFolderDisplayName = googleDriveManager.folderDisplayName
+        googleDriveFolderIsReady = googleDriveManager.isReadyForUpload
+        googleDriveFolderError = googleDriveManager.lastErrorMessage
+    }
+
     func restoreBundledDirectTextSettings() {
         directTextServerURLString = ""
         directTextAPIToken = ""
@@ -548,6 +648,25 @@ final class RecordingViewModel: NSObject, ObservableObject {
         }
         let storedValues = UserDefaults.standard.stringArray(forKey: quickRouteTargetsDefaultsKey) ?? []
         return storedValues.compactMap(RouteTarget.init(rawValue:))
+    }
+
+    private static func storedLANReceiverProfiles(defaultURL: String) -> [LANReceiverProfile] {
+        if let data = UserDefaults.standard.data(forKey: lanReceiverProfilesDefaultsKey),
+           let profiles = try? JSONDecoder().decode([LANReceiverProfile].self, from: data),
+           !profiles.isEmpty {
+            return profiles
+        }
+
+        return [
+            LANReceiverProfile(id: "primary", name: "Computer 1", urlString: defaultURL),
+            LANReceiverProfile(id: "secondary", name: "Computer 2", urlString: "")
+        ]
+    }
+
+    private func persistLANReceiverProfiles() {
+        if let data = try? JSONEncoder().encode(lanReceiverProfiles) {
+            UserDefaults.standard.set(data, forKey: Self.lanReceiverProfilesDefaultsKey)
+        }
     }
 
     func toggleSpeakCallResponses() {
@@ -764,6 +883,27 @@ final class RecordingViewModel: NSObject, ObservableObject {
 
         appendThreadMessage(.user, trimmedMessage)
         statusText = "Sending typed message..."
+
+        if deliveryMode == .googleDriveFiles {
+            await withUploadBackgroundTask {
+                do {
+                    let job = try await submitTextJob(
+                        message: trimmedMessage,
+                        submitAfterPaste: submitAfterPaste,
+                        routeTarget: effectiveRouteMetadataValue,
+                        responseMode: nil,
+                        callSession: false
+                    )
+                    appendThreadMessage(.status, "Sent to Google Drive as \(job.jobID).text.json.")
+                    statusText = "Sent to Google Drive"
+                } catch {
+                    appendThreadMessage(.status, "Typed message failed: \(error.localizedDescription)")
+                    statusText = "Typed message failed"
+                }
+            }
+            return
+        }
+
         beginWaitingForResponse(.text)
 
         await withUploadBackgroundTask {
@@ -2021,6 +2161,16 @@ final class RecordingViewModel: NSObject, ObservableObject {
             )
         }
 
+        if deliveryMode == .googleDriveFiles {
+            return try googleDriveManager.uploadRecording(
+                fileURL: fileURL,
+                submitAfterPaste: submitAfterPaste,
+                routeTarget: routeTargetValue,
+                responseMode: shouldRequestTextResponse ? "text" : nil,
+                callSession: callSessionValue
+            )
+        }
+
         return try await uploadRecordingToServer(
             fileURL: fileURL,
             routeTargetValue: routeTargetValue,
@@ -2110,13 +2260,23 @@ final class RecordingViewModel: NSObject, ObservableObject {
         routeTargetValue: String?,
         submitAfterPasteValue: Bool
     ) async throws -> String {
-        if deliveryMode != .dropbox {
+        if deliveryMode == .lanHTTP || deliveryMode == .cloudflareHTTP {
             return try await uploadRecordingToServer(
                 fileURL: fileURL,
                 routeTargetValue: routeTargetValue,
                 shouldRequestTextResponse: false,
                 callSessionValue: false,
                 submitAfterPasteValue: submitAfterPasteValue
+            )
+        }
+
+        if deliveryMode == .googleDriveFiles {
+            return try googleDriveManager.uploadRecording(
+                fileURL: fileURL,
+                submitAfterPaste: submitAfterPasteValue,
+                routeTarget: routeTargetValue,
+                responseMode: nil,
+                callSession: false
             )
         }
 
@@ -2207,7 +2367,7 @@ final class RecordingViewModel: NSObject, ObservableObject {
     private func activeHTTPBaseURL() -> URL? {
         let rawURL: String
         switch deliveryMode {
-        case .dropbox:
+        case .dropbox, .googleDriveFiles:
             return nil
         case .lanHTTP:
             rawURL = serverURLString
@@ -2254,6 +2414,7 @@ final class RecordingViewModel: NSObject, ObservableObject {
     private enum TextResponseTransport {
         case dropbox
         case direct
+        case googleDrive
     }
 
     private struct SubmittedTextJob {
@@ -2268,6 +2429,21 @@ final class RecordingViewModel: NSObject, ObservableObject {
         responseMode: String?,
         callSession: Bool
     ) async throws -> SubmittedTextJob {
+        if deliveryMode == .googleDriveFiles {
+            guard responseMode == nil else {
+                throw RecorderError.serverError("Google Drive delivery is one-way for now. Use Dropbox, LAN, or Cloudflare for response mode.")
+            }
+
+            let jobID = try googleDriveManager.uploadTypedMessage(
+                message: message,
+                submitAfterPaste: submitAfterPaste,
+                routeTarget: routeTarget,
+                responseMode: responseMode,
+                callSession: callSession
+            )
+            return SubmittedTextJob(jobID: jobID, transport: .googleDrive)
+        }
+
         if isDirectTextTransportReady {
             do {
                 let jobID = try await submitDirectTextJob(
@@ -2342,6 +2518,8 @@ final class RecordingViewModel: NSObject, ObservableObject {
             return try await dropboxManager.waitForTextResponse(jobID: jobID)
         case .direct:
             return try await waitForDirectTextResponse(jobID: jobID)
+        case .googleDrive:
+            throw RecorderError.serverError("Google Drive delivery does not support waiting for responses yet.")
         }
     }
 
@@ -2868,5 +3046,12 @@ private extension Data {
         if let data = string.data(using: .utf8) {
             append(data)
         }
+    }
+}
+
+private extension String {
+    var nonEmpty: String? {
+        let trimmed = trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? nil : self
     }
 }

@@ -33,6 +33,7 @@
 		8DF0949DEB16B9915FE36BA8 /* RecordingLaunchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E176FC2110A88A940795C3A /* RecordingLaunchCoordinator.swift */; };
 		9076E19844AE6F3B1B3AEBC6 /* DropboxSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA92512336437FA08FCCCF05 /* DropboxSessionManager.swift */; };
 		931D1EA5FA435129D0E5A653 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEAE5DBBBE8ED166566BD47 /* ContentView.swift */; };
+		A1B2C3D4E5F60718293A4B5D /* GoogleDriveFolderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5C /* GoogleDriveFolderManager.swift */; };
 		A409AF3674A4E5E6D0286806 /* CompanionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00A23CCFE51FC0B0E5F75C3 /* CompanionSettingsView.swift */; };
 		ACD7D01709A6B07602FA302B /* AutoTranscribeCompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674636B2F0C79FB35CD59B78 /* AutoTranscribeCompanionApp.swift */; };
 		B0564E0149C5020C0EA5397B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00F80686B9535FB08C0729A6 /* Assets.xcassets */; };
@@ -131,6 +132,7 @@
 		99E975A3D34365345A15B8F2 /* MobileRecorderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileRecorderApp.swift; sourceTree = "<group>"; };
 		9AEC4506B62604781E0289D5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9DB1094D0F6766D70BE34660 /* RouteConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteConfiguration.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718293A4B5C /* GoogleDriveFolderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveFolderManager.swift; sourceTree = "<group>"; };
 		A88E9282FF4A7D5C3555B3E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AA784419DFA97D976127EEF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AAEAE5DBBBE8ED166566BD47 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				DBE5C764DAA04AF5FC1F1FE2 /* Assets.xcassets */,
 				D7318C2B61A7C7537454BFC3 /* ContentView.swift */,
 				0788CDF4D744CC46C14CBB1C /* DropboxSessionManager.swift */,
+				A1B2C3D4E5F60718293A4B5C /* GoogleDriveFolderManager.swift */,
 				674E77012D653A84A1B8A210 /* Info.plist */,
 				C6591E7BA193D5D665D6ED95 /* LocalWhisperTranscriber.swift */,
 				99E975A3D34365345A15B8F2 /* MobileRecorderApp.swift */,
@@ -563,6 +566,7 @@
 				892B1ED8AE52963E2E055C18 /* ContentView.swift in Sources */,
 				E82E9ACC82B676DBEE34C6E6 /* DropboxSessionManager.swift in Sources */,
 				DB9E36A43A5DE9CCD96A90C9 /* LocalWhisperTranscriber.swift in Sources */,
+				A1B2C3D4E5F60718293A4B5D /* GoogleDriveFolderManager.swift in Sources */,
 				422D5741613D14006DF3FA45 /* MobileRecorderApp.swift in Sources */,
 				C0B970FFF397EC163AED9774 /* RecordingLaunchCoordinator.swift in Sources */,
 				7038A9A7E99F3C5B34F6A445 /* RecordingViewModel.swift in Sources */,
