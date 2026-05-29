@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 import os
 import queue
@@ -66,6 +68,8 @@ class CompanionConfig:
     whisper_command: str
     auto_paste: bool
     press_enter_after_paste: bool
+    codex_window_title: str
+    claude_window_title: str
     poll_seconds: float
 
     @staticmethod
@@ -75,8 +79,17 @@ class CompanionConfig:
             whisper_command='whisper "{input}" --model base --task transcribe --output_format txt --output_dir "{output_dir}"',
             auto_paste=True,
             press_enter_after_paste=False,
+            codex_window_title="Codex",
+            claude_window_title="Claude",
             poll_seconds=2.0,
         )
+
+
+@dataclass
+class ProcessedJob:
+    text: str
+    route_target: str | None = None
+    submit_after_paste: bool | None = None
 
 
 class ConfigStore:
@@ -97,6 +110,8 @@ class ConfigStore:
             whisper_command=str(raw.get("whisper_command") or defaults.whisper_command),
             auto_paste=bool(raw.get("auto_paste", defaults.auto_paste)),
             press_enter_after_paste=bool(raw.get("press_enter_after_paste", defaults.press_enter_after_paste)),
+            codex_window_title=str(raw.get("codex_window_title") or defaults.codex_window_title),
+            claude_window_title=str(raw.get("claude_window_title") or defaults.claude_window_title),
             poll_seconds=float(raw.get("poll_seconds", defaults.poll_seconds)),
         )
 
@@ -137,6 +152,8 @@ class FolderWatcher:
         suffix = path.suffix.lower()
         if suffix in IGNORED_EXTENSIONS:
             return False
+        if path.name.endswith(".route.json"):
+            return False
         if suffix not in AUDIO_EXTENSIONS and suffix not in TEXT_EXTENSIONS:
             return False
         lower_parts = {part.lower() for part in path.parts}
@@ -150,15 +167,12 @@ class FolderWatcher:
             if not self.wait_until_stable(path):
                 self.log(f"Skipped unstable file: {path.name}")
                 return
-            if path.suffix.lower() in AUDIO_EXTENSIONS:
-                text = self.transcribe_audio(path, config)
-            else:
-                text = self.read_text_job(path)
-            if not text.strip():
+            job = self.read_job(path, config)
+            if not job.text.strip():
                 self.log(f"No text produced for {path.name}")
                 return
-            self.write_transcript(path, config, text)
-            self.deliver_text(text, config)
+            self.write_transcript(path, config, job.text)
+            self.deliver_text(job, config)
             self.move_to_processed(path, config)
             self.log(f"Delivered {path.name}")
         except Exception as exc:
@@ -184,19 +198,69 @@ class FolderWatcher:
             time.sleep(0.5)
         return False
 
-    def read_text_job(self, path: Path) -> str:
+    def read_job(self, path: Path, config: CompanionConfig) -> ProcessedJob:
+        metadata = self.read_sidecar_metadata(path)
+        if path.suffix.lower() in AUDIO_EXTENSIONS:
+            text = self.transcribe_audio(path, config)
+            return ProcessedJob(
+                text=text,
+                route_target=self.string_value(metadata.get("route_target")),
+                submit_after_paste=self.bool_value(metadata.get("submit_after_paste")),
+            )
+        return self.read_text_job(path, metadata)
+
+    def read_text_job(self, path: Path, sidecar_metadata: dict) -> ProcessedJob:
         content = path.read_text(encoding="utf-8", errors="replace")
         if path.suffix.lower() != ".json":
-            return content.strip()
+            return ProcessedJob(
+                text=content.strip(),
+                route_target=self.string_value(sidecar_metadata.get("route_target")),
+                submit_after_paste=self.bool_value(sidecar_metadata.get("submit_after_paste")),
+            )
         try:
             payload = json.loads(content)
         except json.JSONDecodeError:
-            return content.strip()
+            return ProcessedJob(text=content.strip())
+
+        route_target = self.string_value(payload.get("route_target") or sidecar_metadata.get("route_target"))
+        submit_after_paste = self.bool_value(payload.get("submit_after_paste", sidecar_metadata.get("submit_after_paste")))
         for key in ("transcript", "message", "text", "body"):
             value = payload.get(key)
             if isinstance(value, str) and value.strip():
-                return value.strip()
-        return content.strip()
+                return ProcessedJob(
+                    text=value.strip(),
+                    route_target=route_target,
+                    submit_after_paste=submit_after_paste,
+                )
+        return ProcessedJob(text=content.strip(), route_target=route_target, submit_after_paste=submit_after_paste)
+
+    def read_sidecar_metadata(self, path: Path) -> dict:
+        sidecar = path.with_name(path.name + ".route.json")
+        if not sidecar.exists():
+            return {}
+        try:
+            payload = json.loads(sidecar.read_text(encoding="utf-8", errors="replace"))
+            return payload if isinstance(payload, dict) else {}
+        except Exception:
+            return {}
+
+    def string_value(self, value) -> str | None:
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+        return None
+
+    def bool_value(self, value) -> bool | None:
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, str):
+            lowered = value.strip().lower()
+            if lowered in {"1", "true", "yes", "y"}:
+                return True
+            if lowered in {"0", "false", "no", "n"}:
+                return False
+        if isinstance(value, int):
+            return value != 0
+        return None
 
     def transcribe_audio(self, path: Path, config: CompanionConfig) -> str:
         command_template = config.whisper_command.strip()
@@ -242,11 +306,15 @@ class FolderWatcher:
         folder.mkdir(parents=True, exist_ok=True)
         destination = unique_path(folder / source.name)
         shutil.move(str(source), str(destination))
+        sidecar = source.with_name(source.name + ".route.json")
+        if sidecar.exists():
+            shutil.move(str(sidecar), str(unique_path(folder / sidecar.name)))
 
-    def deliver_text(self, text: str, config: CompanionConfig) -> None:
-        self.copy_to_clipboard(text)
+    def deliver_text(self, job: ProcessedJob, config: CompanionConfig) -> None:
+        self.copy_to_clipboard(job.text)
         if config.auto_paste:
-            self.send_keys(config.press_enter_after_paste)
+            self.focus_route_target(job.route_target, config)
+            self.send_keys(job.submit_after_paste if job.submit_after_paste is not None else config.press_enter_after_paste)
 
     def copy_to_clipboard(self, text: str) -> None:
         if sys.platform == "win32":
@@ -269,6 +337,25 @@ class FolderWatcher:
         )
         subprocess.run(["powershell", "-NoProfile", "-Command", script], check=False, timeout=10)
 
+    def focus_route_target(self, route_target: str | None, config: CompanionConfig) -> None:
+        if sys.platform != "win32" or not route_target:
+            return
+        normalized = route_target.strip().lower().split(":", 1)[0]
+        title = None
+        if normalized == "codex":
+            title = config.codex_window_title
+        elif normalized == "claude":
+            title = config.claude_window_title
+        if not title:
+            return
+        escaped_title = title.replace("'", "''")
+        script = (
+            "$wshell = New-Object -ComObject wscript.shell; "
+            f"$wshell.AppActivate('{escaped_title}') | Out-Null; "
+            "Start-Sleep -Milliseconds 250"
+        )
+        subprocess.run(["powershell", "-NoProfile", "-Command", script], check=False, timeout=10)
+
 
 class Memo2App:
     def __init__(self) -> None:
@@ -285,6 +372,8 @@ class Memo2App:
         self.whisper_command = StringVar(value=self.config.whisper_command)
         self.auto_paste = BooleanVar(value=self.config.auto_paste)
         self.press_enter = BooleanVar(value=self.config.press_enter_after_paste)
+        self.codex_window_title = StringVar(value=self.config.codex_window_title)
+        self.claude_window_title = StringVar(value=self.config.claude_window_title)
 
         self.build_ui()
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
@@ -326,6 +415,14 @@ class Memo2App:
         )
         ttk.Checkbutton(options, text="Press Enter after paste", variable=self.press_enter).pack(anchor="w")
 
+        routes = ttk.LabelFrame(outer, text="Routes")
+        routes.pack(fill="x", pady=(0, 12))
+        ttk.Label(routes, text="Codex window title").grid(row=0, column=0, sticky="w", padx=8, pady=(8, 4))
+        ttk.Entry(routes, textvariable=self.codex_window_title).grid(row=0, column=1, sticky="ew", padx=8, pady=(8, 4))
+        ttk.Label(routes, text="Claude window title").grid(row=1, column=0, sticky="w", padx=8, pady=(4, 8))
+        ttk.Entry(routes, textvariable=self.claude_window_title).grid(row=1, column=1, sticky="ew", padx=8, pady=(4, 8))
+        routes.columnconfigure(1, weight=1)
+
         controls = ttk.Frame(outer)
         controls.pack(fill="x", pady=(0, 12))
         self.start_button = ttk.Button(controls, text="Start Watcher", command=self.start)
@@ -354,6 +451,8 @@ class Memo2App:
             whisper_command=self.whisper_command.get().strip(),
             auto_paste=bool(self.auto_paste.get()),
             press_enter_after_paste=bool(self.press_enter.get()),
+            codex_window_title=self.codex_window_title.get().strip() or "Codex",
+            claude_window_title=self.claude_window_title.get().strip() or "Claude",
             poll_seconds=2.0,
         )
 

@@ -28,6 +28,23 @@ The command intentionally uses `--task transcribe`, not translation, so Portugue
 
 If Whisper is not installed on the PC yet, text files still work, but audio files will show a clear error in the app log.
 
+## Routing
+
+The Windows app can route jobs before pasting by reading `route_target` from a `.text.json` job or from an audio sidecar named like:
+
+```text
+recording.m4a.route.json
+```
+
+Supported routes in this build:
+
+```json
+{ "route_target": "codex" }
+{ "route_target": "claude" }
+```
+
+The app focuses a matching window title before sending paste. Defaults are `Codex` and `Claude`, and both can be changed in the Routes section of the app.
+
 ## Build Locally
 
 ```powershell
