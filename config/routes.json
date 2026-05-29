@@ -1,0 +1,103 @@
+{
+  "routes" : [
+    {
+      "id" : "automatic",
+      "kind" : "automatic",
+      "label" : "Auto"
+    },
+    {
+      "id" : "clipboard",
+      "kind" : "clipboard",
+      "label" : "Clipboard"
+    },
+    {
+      "id" : "codex",
+      "kind" : "app",
+      "label" : "Codex",
+      "target" : "Codex"
+    },
+    {
+      "id" : "plexi",
+      "kind" : "app",
+      "label" : "Plexi",
+      "target" : "Plexi"
+    },
+    {
+      "id" : "chrome",
+      "kind" : "app",
+      "label" : "Google Chrome",
+      "target" : "Google Chrome"
+    },
+    {
+      "id" : "iawriter",
+      "kind" : "app",
+      "label" : "iA Writer",
+      "target" : "iA Writer"
+    },
+    {
+      "id" : "textedit",
+      "kind" : "app",
+      "label" : "TextEdit",
+      "target" : "TextEdit"
+    },
+    {
+      "id" : "terminal",
+      "kind" : "app",
+      "label" : "Terminal",
+      "target" : "Terminal"
+    },
+    {
+      "id" : "iterm",
+      "kind" : "tmux",
+      "label" : "iTerm",
+      "target" : "voice_return"
+    },
+    {
+      "id" : "iterm:1",
+      "kind" : "tmux",
+      "label" : "iTerm 1",
+      "shortcut" : "1",
+      "target" : "voice_return"
+    },
+    {
+      "id" : "iterm:2",
+      "kind" : "tmux",
+      "label" : "iTerm 2",
+      "shortcut" : "2",
+      "target" : "voice_return"
+    },
+    {
+      "id" : "iterm:3",
+      "kind" : "tmux",
+      "label" : "iTerm 3",
+      "shortcut" : "3",
+      "target" : "voice_return"
+    },
+    {
+      "id" : "iterm:4",
+      "kind" : "tmux",
+      "label" : "iTerm 4",
+      "shortcut" : "4",
+      "target" : "voice_return"
+    },
+    {
+      "id" : "wezterm",
+      "kind" : "tmux",
+      "label" : "WezTerm",
+      "target" : "voice_return"
+    },
+    {
+      "id" : "kitty",
+      "kind" : "tmux",
+      "label" : "Kitty",
+      "target" : "voice_return"
+    },
+    {
+      "id" : "tabby",
+      "kind" : "tmux",
+      "label" : "Tabby",
+      "target" : "voice_return"
+    }
+  ],
+  "version" : 1
+}

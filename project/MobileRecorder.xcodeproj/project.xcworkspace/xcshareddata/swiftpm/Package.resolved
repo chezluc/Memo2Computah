@@ -1,0 +1,33 @@
+{
+  "originHash" : "b58043712ad1772f138cca86b32cfd226c227be6150b8348399ee2e5859e9378",
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "7595cbcf59809f9977c5f6378500de2ad73b7ddb",
+        "version" : "5.12.0"
+      }
+    },
+    {
+      "identity" : "swiftydropbox",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dropbox/SwiftyDropbox.git",
+      "state" : {
+        "revision" : "5bda01b02a87568801a5b2af07e3fdb075dce69c",
+        "version" : "9.2.0"
+      }
+    },
+    {
+      "identity" : "whisper.spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ggerganov/whisper.spm",
+      "state" : {
+        "branch" : "master",
+        "revision" : "a2085436c2eb796af90956b62bd64731f5e5b823"
+      }
+    }
+  ],
+  "version" : 3
+}

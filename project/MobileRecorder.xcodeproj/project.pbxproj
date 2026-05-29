@@ -1,0 +1,1138 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		022C879D6693911188BB6573 /* CompanionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EF6A95BF937243F8E5A447 /* CompanionViewModel.swift */; };
+		227D3D5F64D3D1864C806A69 /* WatcherStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708E9438FD2B7167E93D727 /* WatcherStatus.swift */; };
+		2D1826650E66EF624055615A /* CompanionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB39073674BB88E11FB5F5D /* CompanionViewModel.swift */; };
+		36DC3E7E0CA1A084AA71D338 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9AEC4506B62604781E0289D5 /* README.md */; };
+		36F4EF85F4EB3E0B2DDC1CFE /* StartRecordingControlIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965519DAC771384252800129 /* StartRecordingControlIntent.swift */; };
+		3EBC0B612264508A0C13309F /* Memo2ComputahControlBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9882C9719CD393B993FF5C /* Memo2ComputahControlBundle.swift */; };
+		422D5741613D14006DF3FA45 /* MobileRecorderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E975A3D34365345A15B8F2 /* MobileRecorderApp.swift */; };
+		42B237920521732EBD9A3A52 /* SwiftyDropbox in Frameworks */ = {isa = PBXBuildFile; productRef = EF4AA32211B2ACB34F11B039 /* SwiftyDropbox */; };
+		4A064F3267A54F1EEAA12C20 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0893AD8FA7052FB0D502328E /* SettingsView.swift */; };
+		4CF215EEFA3B5FBDDE988B69 /* LocalWhisperTranscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7756C55215CE15151C6B11 /* LocalWhisperTranscriber.swift */; };
+		562D6929F92263B469B3EFF5 /* StartRecordingControlIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965519DAC771384252800129 /* StartRecordingControlIntent.swift */; };
+		5751C425FC45FDA97B3C86AD /* RecordingLaunchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E176FC2110A88A940795C3A /* RecordingLaunchCoordinator.swift */; };
+		60E0D61801455D7E9CA02B96 /* RecordingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D278110D5A903BBABDC36940 /* RecordingViewModel.swift */; };
+		6166FAF5435A0F75DB5F7560 /* ggml-tiny.bin in Resources */ = {isa = PBXBuildFile; fileRef = 52CE002F9D6FCF4793C014EE /* ggml-tiny.bin */; };
+		6ADD02481D65F0C2AA78423B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD7BB55988EDD4CBCAD495D /* SettingsView.swift */; };
+		6BBC1F564326316442D25E48 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3F80A692144933B1D1432BA9 /* README.md */; };
+		7038A9A7E99F3C5B34F6A445 /* RecordingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C27F66FDB35FD24ACE7D52 /* RecordingViewModel.swift */; };
+		78209531E8C77A9C8C2FD353 /* RouteConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AE9368314895A41CDA5F7C /* RouteConfiguration.swift */; };
+		79C64E719C47B2F0592C3D44 /* RouteConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB1094D0F6766D70BE34660 /* RouteConfiguration.swift */; };
+		84AE45C3CE07652E8A39666E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBE5C764DAA04AF5FC1F1FE2 /* Assets.xcassets */; };
+		8717700826B1284B62E6B344 /* SwiftyDropbox in Frameworks */ = {isa = PBXBuildFile; productRef = B148960720E3A183586B6756 /* SwiftyDropbox */; };
+		892B1ED8AE52963E2E055C18 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7318C2B61A7C7537454BFC3 /* ContentView.swift */; };
+		8CCA78B641096AFF64470F1C /* StartMemo2RecordingIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F9118B1CD7B9B0ED1419A /* StartMemo2RecordingIntent.swift */; };
+		8DF0949DEB16B9915FE36BA8 /* RecordingLaunchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E176FC2110A88A940795C3A /* RecordingLaunchCoordinator.swift */; };
+		9076E19844AE6F3B1B3AEBC6 /* DropboxSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA92512336437FA08FCCCF05 /* DropboxSessionManager.swift */; };
+		931D1EA5FA435129D0E5A653 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEAE5DBBBE8ED166566BD47 /* ContentView.swift */; };
+		A409AF3674A4E5E6D0286806 /* CompanionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00A23CCFE51FC0B0E5F75C3 /* CompanionSettingsView.swift */; };
+		ACD7D01709A6B07602FA302B /* AutoTranscribeCompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674636B2F0C79FB35CD59B78 /* AutoTranscribeCompanionApp.swift */; };
+		B0564E0149C5020C0EA5397B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00F80686B9535FB08C0729A6 /* Assets.xcassets */; };
+		B295271B684025D11C3985DD /* ggml-tiny.bin in Resources */ = {isa = PBXBuildFile; fileRef = 45858B0EDC0AB21CBE06521E /* ggml-tiny.bin */; };
+		B2DCAE035865AE43D0781EF5 /* MobileRecorderControlWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4066EE39EEFF3BD4171C0A /* MobileRecorderControlWidget.swift */; };
+		B5528EC234A156C249CFC5CD /* Memo2ComputahControl.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 246132B5CD76629C282D3182 /* Memo2ComputahControl.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B8D8C9D5C4F869F74C93B9A3 /* Memo2ComputahControlWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D68D5F0857CF1FF8EB1941 /* Memo2ComputahControlWidget.swift */; };
+		BE6F3E3A2492E0359788F9F6 /* WatcherStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC9F055458E80ABAC451ADB /* WatcherStatus.swift */; };
+		BFD19B862105F48901E97E8C /* whisper in Frameworks */ = {isa = PBXBuildFile; productRef = BE023DAF2CC52DCB2D91F6AE /* whisper */; };
+		C0B970FFF397EC163AED9774 /* RecordingLaunchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7806C1D3EB0358A41C82C /* RecordingLaunchCoordinator.swift */; };
+		C23E4F7B9F0C4C2EA1B5D601 /* RecordingLaunchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7806C1D3EB0358A41C82C /* RecordingLaunchCoordinator.swift */; };
+		C37EDCE27ED2E96379FD9319 /* whisper in Frameworks */ = {isa = PBXBuildFile; productRef = FD398CC63AB2418596A512F5 /* whisper */; };
+		C897317DCA56034F2D415696 /* MobileRecorderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB7A4FC90040C558A58C1B2 /* MobileRecorderApp.swift */; };
+		CEECBC5B8FF8B0D6FDB2EB5A /* CompanionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C6FD85618AC1A8B81B9E1D /* CompanionSettingsView.swift */; };
+		DB9E36A43A5DE9CCD96A90C9 /* LocalWhisperTranscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6591E7BA193D5D665D6ED95 /* LocalWhisperTranscriber.swift */; };
+		DF56FB5EF1B3C15375844BC2 /* MobileRecorderControlBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E74E6F760D0F39C8637FFCE /* MobileRecorderControlBundle.swift */; };
+		E56B91A6FC23E8F62B4B78B2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8905DDF2AE9EAA9294E50E7E /* Assets.xcassets */; };
+		E82E9ACC82B676DBEE34C6E6 /* DropboxSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0788CDF4D744CC46C14CBB1C /* DropboxSessionManager.swift */; };
+		E8E9C9F6A785A848EC354BC6 /* CompanionMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A4E6C2E4989F20C44E9325 /* CompanionMenuView.swift */; };
+		EDF63B9B4E38F31B70F00708 /* AutoTranscribeCompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09736D58FEB7369F9E699929 /* AutoTranscribeCompanionApp.swift */; };
+		F53A9FB455F5FA89E08C80EC /* CompanionMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9AEAC14EDEF8EA3F461F8E /* CompanionMenuView.swift */; };
+		FB64B8AC0BAC816B7A005AA9 /* MobileRecorderControl.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E36DB96CA721ABF5FF480896 /* MobileRecorderControl.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		077FD63F8B72675A3A5EFC4F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 938BA6CD691F0F713C3C3262 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 60F6FBEA2DA7894595734C15;
+			remoteInfo = Memo2ComputahControl;
+		};
+		1EC0B69D8A1661E326FC1130 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 938BA6CD691F0F713C3C3262 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C078C83DC6319ECA039B7F48;
+			remoteInfo = MobileRecorderControl;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4D1DF44E98CC0EEA3B0E393E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B5528EC234A156C249CFC5CD /* Memo2ComputahControl.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76DDF366E0B8405FFBFB3A46 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FB64B8AC0BAC816B7A005AA9 /* MobileRecorderControl.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		00EED14C1DCBA2AD1E1CC049 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		00F80686B9535FB08C0729A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0788CDF4D744CC46C14CBB1C /* DropboxSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxSessionManager.swift; sourceTree = "<group>"; };
+		0893AD8FA7052FB0D502328E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		09736D58FEB7369F9E699929 /* AutoTranscribeCompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoTranscribeCompanionApp.swift; sourceTree = "<group>"; };
+		0F43B9E13601DF21FABF1316 /* MobileRecorder.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MobileRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		10C6FD85618AC1A8B81B9E1D /* CompanionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionSettingsView.swift; sourceTree = "<group>"; };
+		1B4066EE39EEFF3BD4171C0A /* MobileRecorderControlWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileRecorderControlWidget.swift; sourceTree = "<group>"; };
+		1E74E6F760D0F39C8637FFCE /* MobileRecorderControlBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileRecorderControlBundle.swift; sourceTree = "<group>"; };
+		246132B5CD76629C282D3182 /* Memo2ComputahControl.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = Memo2ComputahControl.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		29EF6A95BF937243F8E5A447 /* CompanionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionViewModel.swift; sourceTree = "<group>"; };
+		2DD7BB55988EDD4CBCAD495D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		3E176FC2110A88A940795C3A /* RecordingLaunchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingLaunchCoordinator.swift; sourceTree = "<group>"; };
+		3F80A692144933B1D1432BA9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		45858B0EDC0AB21CBE06521E /* ggml-tiny.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-tiny.bin"; sourceTree = "<group>"; };
+		48AE9368314895A41CDA5F7C /* RouteConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteConfiguration.swift; sourceTree = "<group>"; };
+		52CE002F9D6FCF4793C014EE /* ggml-tiny.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-tiny.bin"; sourceTree = "<group>"; };
+		52E4B8FB990725E437F4833F /* Memo2ComputahDesktop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memo2ComputahDesktop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BC9F055458E80ABAC451ADB /* WatcherStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatcherStatus.swift; sourceTree = "<group>"; };
+		674636B2F0C79FB35CD59B78 /* AutoTranscribeCompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoTranscribeCompanionApp.swift; sourceTree = "<group>"; };
+		674E77012D653A84A1B8A210 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7984C00F94B1D50DE8E370C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7BB7A4FC90040C558A58C1B2 /* MobileRecorderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileRecorderApp.swift; sourceTree = "<group>"; };
+		875F9118B1CD7B9B0ED1419A /* StartMemo2RecordingIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartMemo2RecordingIntent.swift; sourceTree = "<group>"; };
+		8905DDF2AE9EAA9294E50E7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8E9AEAC14EDEF8EA3F461F8E /* CompanionMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionMenuView.swift; sourceTree = "<group>"; };
+		965519DAC771384252800129 /* StartRecordingControlIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRecordingControlIntent.swift; sourceTree = "<group>"; };
+		98B7806C1D3EB0358A41C82C /* RecordingLaunchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingLaunchCoordinator.swift; sourceTree = "<group>"; };
+		99E975A3D34365345A15B8F2 /* MobileRecorderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileRecorderApp.swift; sourceTree = "<group>"; };
+		9AEC4506B62604781E0289D5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9DB1094D0F6766D70BE34660 /* RouteConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteConfiguration.swift; sourceTree = "<group>"; };
+		A88E9282FF4A7D5C3555B3E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		AA784419DFA97D976127EEF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		AAEAE5DBBBE8ED166566BD47 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AD6E2F2F345D0AA6C0EA8CC0 /* AutoTranscribeCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoTranscribeCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B8D68D5F0857CF1FF8EB1941 /* Memo2ComputahControlWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo2ComputahControlWidget.swift; sourceTree = "<group>"; };
+		BA92512336437FA08FCCCF05 /* DropboxSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxSessionManager.swift; sourceTree = "<group>"; };
+		BE7756C55215CE15151C6B11 /* LocalWhisperTranscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalWhisperTranscriber.swift; sourceTree = "<group>"; };
+		C6591E7BA193D5D665D6ED95 /* LocalWhisperTranscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalWhisperTranscriber.swift; sourceTree = "<group>"; };
+		C696B20E74325E7220230015 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C708E9438FD2B7167E93D727 /* WatcherStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatcherStatus.swift; sourceTree = "<group>"; };
+		D278110D5A903BBABDC36940 /* RecordingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewModel.swift; sourceTree = "<group>"; };
+		D2C27F66FDB35FD24ACE7D52 /* RecordingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewModel.swift; sourceTree = "<group>"; };
+		D7318C2B61A7C7537454BFC3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		DBE5C764DAA04AF5FC1F1FE2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DC9882C9719CD393B993FF5C /* Memo2ComputahControlBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo2ComputahControlBundle.swift; sourceTree = "<group>"; };
+		DEA1FC433B7C33D81573982C /* Memo2Computah.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Memo2Computah.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E36DB96CA721ABF5FF480896 /* MobileRecorderControl.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = MobileRecorderControl.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4A4E6C2E4989F20C44E9325 /* CompanionMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionMenuView.swift; sourceTree = "<group>"; };
+		EEB39073674BB88E11FB5F5D /* CompanionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionViewModel.swift; sourceTree = "<group>"; };
+		F00A23CCFE51FC0B0E5F75C3 /* CompanionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionSettingsView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6ADAFBFB6F4AD496B92B0D6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8717700826B1284B62E6B344 /* SwiftyDropbox in Frameworks */,
+				C37EDCE27ED2E96379FD9319 /* whisper in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		896EB5A1AA7DF927DC6B9E03 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42B237920521732EBD9A3A52 /* SwiftyDropbox in Frameworks */,
+				BFD19B862105F48901E97E8C /* whisper in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		178799E9CD0DA81A8C28D76D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F9036ABA23921B0586A5B550 /* models */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		5296BF217DC449C494CCAF83 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E33A50E9E4D79796CA97F9AD /* models */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		751AFD5A502CA03DCE7DC9A6 /* Memo2ComputahDesktop */ = {
+			isa = PBXGroup;
+			children = (
+				00F80686B9535FB08C0729A6 /* Assets.xcassets */,
+				09736D58FEB7369F9E699929 /* AutoTranscribeCompanionApp.swift */,
+				E4A4E6C2E4989F20C44E9325 /* CompanionMenuView.swift */,
+				10C6FD85618AC1A8B81B9E1D /* CompanionSettingsView.swift */,
+				29EF6A95BF937243F8E5A447 /* CompanionViewModel.swift */,
+				C696B20E74325E7220230015 /* Info.plist */,
+				3F80A692144933B1D1432BA9 /* README.md */,
+				9DB1094D0F6766D70BE34660 /* RouteConfiguration.swift */,
+				5BC9F055458E80ABAC451ADB /* WatcherStatus.swift */,
+			);
+			name = Memo2ComputahDesktop;
+			path = ../macos/Memo2ComputahDesktop;
+			sourceTree = "<group>";
+		};
+		8F8E0EC6AB62D2A8A7FF3E42 /* MobileRecorderControl */ = {
+			isa = PBXGroup;
+			children = (
+				A88E9282FF4A7D5C3555B3E8 /* Info.plist */,
+				1E74E6F760D0F39C8637FFCE /* MobileRecorderControlBundle.swift */,
+				1B4066EE39EEFF3BD4171C0A /* MobileRecorderControlWidget.swift */,
+			);
+			name = MobileRecorderControl;
+			path = ../ios/MobileRecorderControl;
+			sourceTree = "<group>";
+		};
+		9893DD9F592AB97047181093 = {
+			isa = PBXGroup;
+			children = (
+				B3AE7E7FBA8CE5FA49D48639 /* AutoTranscribeCompanion */,
+				B1C5F0458EBD5AD349E41D07 /* Memo2Computah */,
+				FECE054B9D806045FB549B1B /* Memo2ComputahControl */,
+				751AFD5A502CA03DCE7DC9A6 /* Memo2ComputahDesktop */,
+				E3F35AF07265DD478C27B398 /* MobileRecorder */,
+				8F8E0EC6AB62D2A8A7FF3E42 /* MobileRecorderControl */,
+				F6FF0293DC324564F738E70B /* Shared */,
+				A72316E1DA85FCE245CFC419 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A72316E1DA85FCE245CFC419 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AD6E2F2F345D0AA6C0EA8CC0 /* AutoTranscribeCompanion.app */,
+				DEA1FC433B7C33D81573982C /* Memo2Computah.app */,
+				246132B5CD76629C282D3182 /* Memo2ComputahControl.appex */,
+				52E4B8FB990725E437F4833F /* Memo2ComputahDesktop.app */,
+				0F43B9E13601DF21FABF1316 /* MobileRecorder.app */,
+				E36DB96CA721ABF5FF480896 /* MobileRecorderControl.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B1C5F0458EBD5AD349E41D07 /* Memo2Computah */ = {
+			isa = PBXGroup;
+			children = (
+				DBE5C764DAA04AF5FC1F1FE2 /* Assets.xcassets */,
+				D7318C2B61A7C7537454BFC3 /* ContentView.swift */,
+				0788CDF4D744CC46C14CBB1C /* DropboxSessionManager.swift */,
+				674E77012D653A84A1B8A210 /* Info.plist */,
+				C6591E7BA193D5D665D6ED95 /* LocalWhisperTranscriber.swift */,
+				99E975A3D34365345A15B8F2 /* MobileRecorderApp.swift */,
+				98B7806C1D3EB0358A41C82C /* RecordingLaunchCoordinator.swift */,
+				D2C27F66FDB35FD24ACE7D52 /* RecordingViewModel.swift */,
+				2DD7BB55988EDD4CBCAD495D /* SettingsView.swift */,
+				5296BF217DC449C494CCAF83 /* Resources */,
+			);
+			name = Memo2Computah;
+			path = ../ios/Memo2Computah;
+			sourceTree = "<group>";
+		};
+		B3AE7E7FBA8CE5FA49D48639 /* AutoTranscribeCompanion */ = {
+			isa = PBXGroup;
+			children = (
+				674636B2F0C79FB35CD59B78 /* AutoTranscribeCompanionApp.swift */,
+				8E9AEAC14EDEF8EA3F461F8E /* CompanionMenuView.swift */,
+				F00A23CCFE51FC0B0E5F75C3 /* CompanionSettingsView.swift */,
+				EEB39073674BB88E11FB5F5D /* CompanionViewModel.swift */,
+				AA784419DFA97D976127EEF5 /* Info.plist */,
+				9AEC4506B62604781E0289D5 /* README.md */,
+				48AE9368314895A41CDA5F7C /* RouteConfiguration.swift */,
+				C708E9438FD2B7167E93D727 /* WatcherStatus.swift */,
+			);
+			name = AutoTranscribeCompanion;
+			path = ../macos/AutoTranscribeCompanion;
+			sourceTree = "<group>";
+		};
+		E33A50E9E4D79796CA97F9AD /* models */ = {
+			isa = PBXGroup;
+			children = (
+				52CE002F9D6FCF4793C014EE /* ggml-tiny.bin */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		E3F35AF07265DD478C27B398 /* MobileRecorder */ = {
+			isa = PBXGroup;
+			children = (
+				8905DDF2AE9EAA9294E50E7E /* Assets.xcassets */,
+				AAEAE5DBBBE8ED166566BD47 /* ContentView.swift */,
+				BA92512336437FA08FCCCF05 /* DropboxSessionManager.swift */,
+				00EED14C1DCBA2AD1E1CC049 /* Info.plist */,
+				BE7756C55215CE15151C6B11 /* LocalWhisperTranscriber.swift */,
+				7BB7A4FC90040C558A58C1B2 /* MobileRecorderApp.swift */,
+				3E176FC2110A88A940795C3A /* RecordingLaunchCoordinator.swift */,
+				D278110D5A903BBABDC36940 /* RecordingViewModel.swift */,
+				0893AD8FA7052FB0D502328E /* SettingsView.swift */,
+				178799E9CD0DA81A8C28D76D /* Resources */,
+			);
+			name = MobileRecorder;
+			path = ../ios/MobileRecorder;
+			sourceTree = "<group>";
+		};
+		F6FF0293DC324564F738E70B /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				965519DAC771384252800129 /* StartRecordingControlIntent.swift */,
+			);
+			name = Shared;
+			path = ../ios/Shared;
+			sourceTree = "<group>";
+		};
+		F9036ABA23921B0586A5B550 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				45858B0EDC0AB21CBE06521E /* ggml-tiny.bin */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		FECE054B9D806045FB549B1B /* Memo2ComputahControl */ = {
+			isa = PBXGroup;
+			children = (
+				7984C00F94B1D50DE8E370C3 /* Info.plist */,
+				DC9882C9719CD393B993FF5C /* Memo2ComputahControlBundle.swift */,
+				B8D68D5F0857CF1FF8EB1941 /* Memo2ComputahControlWidget.swift */,
+				875F9118B1CD7B9B0ED1419A /* StartMemo2RecordingIntent.swift */,
+			);
+			name = Memo2ComputahControl;
+			path = ../ios/Memo2ComputahControl;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		31DD56874C31D4971085D9B3 /* Memo2ComputahDesktop */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9E844DA3C8E53A5091A7A630 /* Build configuration list for PBXNativeTarget "Memo2ComputahDesktop" */;
+			buildPhases = (
+				7EFA1DC7802339F61BBB85DC /* Sources */,
+				F0F8DCC4F8D50B6F8891D963 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Memo2ComputahDesktop;
+			packageProductDependencies = (
+			);
+			productName = Memo2ComputahDesktop;
+			productReference = 52E4B8FB990725E437F4833F /* Memo2ComputahDesktop.app */;
+			productType = "com.apple.product-type.application";
+		};
+		60F6FBEA2DA7894595734C15 /* Memo2ComputahControl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F19578F883F326E2DC521F85 /* Build configuration list for PBXNativeTarget "Memo2ComputahControl" */;
+			buildPhases = (
+				F45DBEE439B9ACDEBDE44DA6 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Memo2ComputahControl;
+			packageProductDependencies = (
+			);
+			productName = Memo2ComputahControl;
+			productReference = 246132B5CD76629C282D3182 /* Memo2ComputahControl.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		C078C83DC6319ECA039B7F48 /* MobileRecorderControl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C1F12023EDB177E1207C8E24 /* Build configuration list for PBXNativeTarget "MobileRecorderControl" */;
+			buildPhases = (
+				CE445F906C620DA5D4F720C3 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MobileRecorderControl;
+			packageProductDependencies = (
+			);
+			productName = MobileRecorderControl;
+			productReference = E36DB96CA721ABF5FF480896 /* MobileRecorderControl.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		C777BC8806D3B64A427BA0A5 /* Memo2Computah */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 891893F6A953BFBEFBC08C9A /* Build configuration list for PBXNativeTarget "Memo2Computah" */;
+			buildPhases = (
+				4847F01F6DBD9C11B396DD65 /* Sources */,
+				892C3EEF95529234884404DE /* Resources */,
+				6ADAFBFB6F4AD496B92B0D6A /* Frameworks */,
+				4D1DF44E98CC0EEA3B0E393E /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FF330822A91EAE4BE53784D5 /* PBXTargetDependency */,
+			);
+			name = Memo2Computah;
+			packageProductDependencies = (
+				B148960720E3A183586B6756 /* SwiftyDropbox */,
+				FD398CC63AB2418596A512F5 /* whisper */,
+			);
+			productName = Memo2Computah;
+			productReference = DEA1FC433B7C33D81573982C /* Memo2Computah.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DCCBC855F585DF0B947F7F12 /* AutoTranscribeCompanion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D8FB3AD717586D8074C75511 /* Build configuration list for PBXNativeTarget "AutoTranscribeCompanion" */;
+			buildPhases = (
+				5F09CAD8B670499EBA2FB607 /* Sources */,
+				E37E4A1457C09DC2FDEF725F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AutoTranscribeCompanion;
+			packageProductDependencies = (
+			);
+			productName = AutoTranscribeCompanion;
+			productReference = AD6E2F2F345D0AA6C0EA8CC0 /* AutoTranscribeCompanion.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F1537B53540595E8E50D6835 /* MobileRecorder */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F00534FDB0DBA84E237F768 /* Build configuration list for PBXNativeTarget "MobileRecorder" */;
+			buildPhases = (
+				80A5FDE5FDEEE49B7150CA86 /* Sources */,
+				6B64B97F9B4768DCF577B060 /* Resources */,
+				896EB5A1AA7DF927DC6B9E03 /* Frameworks */,
+				76DDF366E0B8405FFBFB3A46 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				099DE1984D41027DFF5AB80B /* PBXTargetDependency */,
+			);
+			name = MobileRecorder;
+			packageProductDependencies = (
+				EF4AA32211B2ACB34F11B039 /* SwiftyDropbox */,
+				BE023DAF2CC52DCB2D91F6AE /* whisper */,
+			);
+			productName = MobileRecorder;
+			productReference = 0F43B9E13601DF21FABF1316 /* MobileRecorder.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		938BA6CD691F0F713C3C3262 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					31DD56874C31D4971085D9B3 = {
+						DevelopmentTeam = YB6QDSJBRU;
+						ProvisioningStyle = Automatic;
+					};
+					60F6FBEA2DA7894595734C15 = {
+						DevelopmentTeam = YB6QDSJBRU;
+						ProvisioningStyle = Automatic;
+					};
+					C078C83DC6319ECA039B7F48 = {
+						DevelopmentTeam = YB6QDSJBRU;
+						ProvisioningStyle = Automatic;
+					};
+					C777BC8806D3B64A427BA0A5 = {
+						DevelopmentTeam = YB6QDSJBRU;
+						ProvisioningStyle = Automatic;
+					};
+					DCCBC855F585DF0B947F7F12 = {
+						DevelopmentTeam = YB6QDSJBRU;
+						ProvisioningStyle = Automatic;
+					};
+					F1537B53540595E8E50D6835 = {
+						DevelopmentTeam = YB6QDSJBRU;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 9B14EDC81D9B727603061D76 /* Build configuration list for PBXProject "MobileRecorder" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 9893DD9F592AB97047181093;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7B2C6EEBDCDDF6F5D210FB31 /* XCRemoteSwiftPackageReference "SwiftyDropbox" */,
+				E15E1C60FFE5F534296849CF /* XCRemoteSwiftPackageReference "whisper.spm" */,
+			);
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DCCBC855F585DF0B947F7F12 /* AutoTranscribeCompanion */,
+				C777BC8806D3B64A427BA0A5 /* Memo2Computah */,
+				60F6FBEA2DA7894595734C15 /* Memo2ComputahControl */,
+				31DD56874C31D4971085D9B3 /* Memo2ComputahDesktop */,
+				F1537B53540595E8E50D6835 /* MobileRecorder */,
+				C078C83DC6319ECA039B7F48 /* MobileRecorderControl */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6B64B97F9B4768DCF577B060 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E56B91A6FC23E8F62B4B78B2 /* Assets.xcassets in Resources */,
+				B295271B684025D11C3985DD /* ggml-tiny.bin in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		892C3EEF95529234884404DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84AE45C3CE07652E8A39666E /* Assets.xcassets in Resources */,
+				6166FAF5435A0F75DB5F7560 /* ggml-tiny.bin in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E37E4A1457C09DC2FDEF725F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36DC3E7E0CA1A084AA71D338 /* README.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0F8DCC4F8D50B6F8891D963 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0564E0149C5020C0EA5397B /* Assets.xcassets in Resources */,
+				6BBC1F564326316442D25E48 /* README.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4847F01F6DBD9C11B396DD65 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				892B1ED8AE52963E2E055C18 /* ContentView.swift in Sources */,
+				E82E9ACC82B676DBEE34C6E6 /* DropboxSessionManager.swift in Sources */,
+				DB9E36A43A5DE9CCD96A90C9 /* LocalWhisperTranscriber.swift in Sources */,
+				422D5741613D14006DF3FA45 /* MobileRecorderApp.swift in Sources */,
+				C0B970FFF397EC163AED9774 /* RecordingLaunchCoordinator.swift in Sources */,
+				7038A9A7E99F3C5B34F6A445 /* RecordingViewModel.swift in Sources */,
+				6ADD02481D65F0C2AA78423B /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F09CAD8B670499EBA2FB607 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ACD7D01709A6B07602FA302B /* AutoTranscribeCompanionApp.swift in Sources */,
+				F53A9FB455F5FA89E08C80EC /* CompanionMenuView.swift in Sources */,
+				A409AF3674A4E5E6D0286806 /* CompanionSettingsView.swift in Sources */,
+				2D1826650E66EF624055615A /* CompanionViewModel.swift in Sources */,
+				78209531E8C77A9C8C2FD353 /* RouteConfiguration.swift in Sources */,
+				227D3D5F64D3D1864C806A69 /* WatcherStatus.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EFA1DC7802339F61BBB85DC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDF63B9B4E38F31B70F00708 /* AutoTranscribeCompanionApp.swift in Sources */,
+				E8E9C9F6A785A848EC354BC6 /* CompanionMenuView.swift in Sources */,
+				CEECBC5B8FF8B0D6FDB2EB5A /* CompanionSettingsView.swift in Sources */,
+				022C879D6693911188BB6573 /* CompanionViewModel.swift in Sources */,
+				79C64E719C47B2F0592C3D44 /* RouteConfiguration.swift in Sources */,
+				BE6F3E3A2492E0359788F9F6 /* WatcherStatus.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		80A5FDE5FDEEE49B7150CA86 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				931D1EA5FA435129D0E5A653 /* ContentView.swift in Sources */,
+				9076E19844AE6F3B1B3AEBC6 /* DropboxSessionManager.swift in Sources */,
+				4CF215EEFA3B5FBDDE988B69 /* LocalWhisperTranscriber.swift in Sources */,
+				C897317DCA56034F2D415696 /* MobileRecorderApp.swift in Sources */,
+				5751C425FC45FDA97B3C86AD /* RecordingLaunchCoordinator.swift in Sources */,
+				60E0D61801455D7E9CA02B96 /* RecordingViewModel.swift in Sources */,
+				4A064F3267A54F1EEAA12C20 /* SettingsView.swift in Sources */,
+				36F4EF85F4EB3E0B2DDC1CFE /* StartRecordingControlIntent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE445F906C620DA5D4F720C3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF56FB5EF1B3C15375844BC2 /* MobileRecorderControlBundle.swift in Sources */,
+				B2DCAE035865AE43D0781EF5 /* MobileRecorderControlWidget.swift in Sources */,
+				8DF0949DEB16B9915FE36BA8 /* RecordingLaunchCoordinator.swift in Sources */,
+				562D6929F92263B469B3EFF5 /* StartRecordingControlIntent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F45DBEE439B9ACDEBDE44DA6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3EBC0B612264508A0C13309F /* Memo2ComputahControlBundle.swift in Sources */,
+				B8D8C9D5C4F869F74C93B9A3 /* Memo2ComputahControlWidget.swift in Sources */,
+				C23E4F7B9F0C4C2EA1B5D601 /* RecordingLaunchCoordinator.swift in Sources */,
+				8CCA78B641096AFF64470F1C /* StartMemo2RecordingIntent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		099DE1984D41027DFF5AB80B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C078C83DC6319ECA039B7F48 /* MobileRecorderControl */;
+			targetProxy = 1EC0B69D8A1661E326FC1130 /* PBXContainerItemProxy */;
+		};
+		FF330822A91EAE4BE53784D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 60F6FBEA2DA7894595734C15 /* Memo2ComputahControl */;
+			targetProxy = 077FD63F8B72675A3A5EFC4F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0BD94D505EEB4610D8EFACE2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_DISPLAY_NAME = LukeMobileRecoder;
+				APP_URL_SCHEME = mobilerecorder;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				INFOPLIST_FILE = ../ios/MobileRecorder/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.garnetuniverse.MobileRecorder;
+				PRODUCT_NAME = MobileRecorder;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		1768537FC19E03559B8BCC3D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				INFOPLIST_FILE = ../ios/MobileRecorderControl/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.garnetuniverse.MobileRecorder.Control;
+				PRODUCT_NAME = MobileRecorderControl;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		4CD5CD1604FB0B6991B1A4B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				INFOPLIST_FILE = ../ios/MobileRecorderControl/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.garnetuniverse.MobileRecorder.Control;
+				PRODUCT_NAME = MobileRecorderControl;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		4D7EE9A077592ED03A22B580 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_DISPLAY_NAME = Memo2Computah;
+				APP_URL_SCHEME = memo2computah;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				INFOPLIST_FILE = ../ios/Memo2Computah/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.garnetuniverse.Memo2Computah;
+				PRODUCT_NAME = Memo2Computah;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		6D101544196231D7A1EE0C6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				INFOPLIST_FILE = ../macos/Memo2ComputahDesktop/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.garnetuniverse.Memo2ComputahDesktop;
+				PRODUCT_NAME = Memo2ComputahDesktop;
+				SDKROOT = macosx;
+				SUPPORTS_MACCATALYST = NO;
+			};
+			name = Release;
+		};
+		744291AB5839CB7911E8BF60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_DISPLAY_NAME = LukeMobileRecoder;
+				APP_URL_SCHEME = mobilerecorder;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				INFOPLIST_FILE = ../ios/MobileRecorder/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.garnetuniverse.MobileRecorder;
+				PRODUCT_NAME = MobileRecorder;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		77F97152029494A9E75AC7D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		8C6DEF970B044D8A38953663 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AC172333422DB0CDBA1B79EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_DISPLAY_NAME = Memo2Computah;
+				APP_URL_SCHEME = memo2computah;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				INFOPLIST_FILE = ../ios/Memo2Computah/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.garnetuniverse.Memo2Computah;
+				PRODUCT_NAME = Memo2Computah;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		B00AA7FFA1D7F12E70D68409 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				INFOPLIST_FILE = ../ios/Memo2ComputahControl/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.garnetuniverse.Memo2Computah.Control;
+				PRODUCT_NAME = Memo2ComputahControl;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		C6DE624012480521EECFE884 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				INFOPLIST_FILE = ../macos/AutoTranscribeCompanion/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.garnetuniverse.AutoTranscribeCompanion;
+				PRODUCT_NAME = AutoTranscribeCompanion;
+				SDKROOT = macosx;
+				SUPPORTS_MACCATALYST = NO;
+			};
+			name = Release;
+		};
+		D073D2AF446585FC6D04B0C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				INFOPLIST_FILE = ../ios/Memo2ComputahControl/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.garnetuniverse.Memo2Computah.Control;
+				PRODUCT_NAME = Memo2ComputahControl;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		D3A02D8E150EB99AC563774E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				INFOPLIST_FILE = ../macos/Memo2ComputahDesktop/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.garnetuniverse.Memo2ComputahDesktop;
+				PRODUCT_NAME = Memo2ComputahDesktop;
+				SDKROOT = macosx;
+				SUPPORTS_MACCATALYST = NO;
+			};
+			name = Debug;
+		};
+		DAC651555C84EC370D8E8084 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = YB6QDSJBRU;
+				INFOPLIST_FILE = ../macos/AutoTranscribeCompanion/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.garnetuniverse.AutoTranscribeCompanion;
+				PRODUCT_NAME = AutoTranscribeCompanion;
+				SDKROOT = macosx;
+				SUPPORTS_MACCATALYST = NO;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3F00534FDB0DBA84E237F768 /* Build configuration list for PBXNativeTarget "MobileRecorder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				744291AB5839CB7911E8BF60 /* Debug */,
+				0BD94D505EEB4610D8EFACE2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		891893F6A953BFBEFBC08C9A /* Build configuration list for PBXNativeTarget "Memo2Computah" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC172333422DB0CDBA1B79EF /* Debug */,
+				4D7EE9A077592ED03A22B580 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9B14EDC81D9B727603061D76 /* Build configuration list for PBXProject "MobileRecorder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C6DEF970B044D8A38953663 /* Debug */,
+				77F97152029494A9E75AC7D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9E844DA3C8E53A5091A7A630 /* Build configuration list for PBXNativeTarget "Memo2ComputahDesktop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3A02D8E150EB99AC563774E /* Debug */,
+				6D101544196231D7A1EE0C6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C1F12023EDB177E1207C8E24 /* Build configuration list for PBXNativeTarget "MobileRecorderControl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CD5CD1604FB0B6991B1A4B4 /* Debug */,
+				1768537FC19E03559B8BCC3D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D8FB3AD717586D8074C75511 /* Build configuration list for PBXNativeTarget "AutoTranscribeCompanion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAC651555C84EC370D8E8084 /* Debug */,
+				C6DE624012480521EECFE884 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F19578F883F326E2DC521F85 /* Build configuration list for PBXNativeTarget "Memo2ComputahControl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B00AA7FFA1D7F12E70D68409 /* Debug */,
+				D073D2AF446585FC6D04B0C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7B2C6EEBDCDDF6F5D210FB31 /* XCRemoteSwiftPackageReference "SwiftyDropbox" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dropbox/SwiftyDropbox.git";
+			requirement = {
+				kind = exactVersion;
+				version = 9.2.0;
+			};
+		};
+		E15E1C60FFE5F534296849CF /* XCRemoteSwiftPackageReference "whisper.spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ggerganov/whisper.spm";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B148960720E3A183586B6756 /* SwiftyDropbox */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B2C6EEBDCDDF6F5D210FB31 /* XCRemoteSwiftPackageReference "SwiftyDropbox" */;
+			productName = SwiftyDropbox;
+		};
+		BE023DAF2CC52DCB2D91F6AE /* whisper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E15E1C60FFE5F534296849CF /* XCRemoteSwiftPackageReference "whisper.spm" */;
+			productName = whisper;
+		};
+		EF4AA32211B2ACB34F11B039 /* SwiftyDropbox */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B2C6EEBDCDDF6F5D210FB31 /* XCRemoteSwiftPackageReference "SwiftyDropbox" */;
+			productName = SwiftyDropbox;
+		};
+		FD398CC63AB2418596A512F5 /* whisper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E15E1C60FFE5F534296849CF /* XCRemoteSwiftPackageReference "whisper.spm" */;
+			productName = whisper;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 938BA6CD691F0F713C3C3262 /* Project object */;
+}

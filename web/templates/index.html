@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Mobile Recorder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="card">
+        <p class="eyebrow">Auto Transcribe</p>
+        <h1>Mobile Recorder</h1>
+        <p class="subhead">Tap once to start. Tap again to stop. Upload begins immediately after recording ends.</p>
+
+        <button id="recordButton" class="record-button" type="button" aria-live="polite">
+          <span class="button-label">Start Recording</span>
+          <span class="button-dot" aria-hidden="true"></span>
+        </button>
+
+        <p id="statusText" class="status">Ready</p>
+        <p id="timerText" class="timer">00:00</p>
+      </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

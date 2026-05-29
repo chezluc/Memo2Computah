@@ -1,0 +1,43 @@
+.DS_Store
+**/.DS_Store
+**/__pycache__/
+*.pyc
+
+# Runtime/drop folders
+incoming/
+processed/
+responses/
+transcriptions/
+transcriptions_tmp/
+uploads_staging/
+tmp/
+
+# Local archives and experiments
+backups/
+experiments/
+random/
+simulator-screenshots-*/
+
+# Local generated material
+certs/
+*.log
+*.ips
+
+# Xcode local state/build products
+DerivedData/
+*.xcuserdata/
+xcuserdata/
+*.xcuserstate
+build/
+
+# Resolved/generated dependencies are pulled by Swift Package Manager.
+project/vendor/
+
+# Local conflict/backup copies
+*conflicted copy*
+*.utf16-backup*
+*.utf16-backup-*
+
+# Python virtual environments
+.venv/
+.venv-*/

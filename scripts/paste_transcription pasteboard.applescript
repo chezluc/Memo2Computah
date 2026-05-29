@@ -1,0 +1,1 @@
+-- Pasteboard only — content is already on clipboard, do nothing
