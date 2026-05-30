@@ -59,7 +59,7 @@ get_app_script() {
         *iawriter*|*ia\ writer*|*i\ a\ writer*|*writer*|*compose*) echo "paste_transcription iawriter.applescript" ;;
         *chatgpt*|*chat\ gpt*|*chat\ g\ p\ t*|gpt) echo "paste_transcription chatgpt.applescript" ;;
         *messages*|*message*) echo "paste_transcription messages.applescript" ;;
-        *whatsapp*|*whats*) echo "paste_transcription whatsapp.applescript" ;;
+        *whatsapp*|*whats\ app*) echo "paste_transcription whatsapp.applescript" ;;
         *mail*|*email*) echo "paste_transcription mail.applescript" ;;
         *cursor*) echo "paste_transcription cursor.applescript" ;;
         *textedit*|*text\ edit*|text) echo "paste_transcription textedit.applescript" ;;
@@ -83,7 +83,7 @@ get_app_target() {
         *iawriter*|*ia\ writer*|*i\ a\ writer*|*writer*|*compose*) echo "iA Writer" ;;
         *chatgpt*|*chat\ gpt*|*chat\ g\ p\ t*|gpt) echo "ChatGPT" ;;
         *messages*|*message*) echo "Messages" ;;
-        *whatsapp*|*whats*) echo "WhatsApp" ;;
+        *whatsapp*|*whats\ app*) echo "WhatsApp" ;;
         *mail*|*email*) echo "Mail" ;;
         *cursor*) echo "Cursor" ;;
         *textedit*|*text\ edit*|text) echo "TextEdit" ;;
@@ -596,12 +596,7 @@ process_text_job_file() {
         allow_without_thank_you=true
     fi
 
-    if [[ -n "$spoken_matched_script" ]] && { $has_thank_you || $allow_without_thank_you; }; then
-        matched_script="$spoken_matched_script"
-        target_app="$spoken_target_app"
-        route_shortcut="$spoken_route_shortcut"
-        echo "${C_OK}🗣️ Typed route phrase:${C_RESET} '${pre_thank_you}'"
-    elif [[ -n "$route_override" ]]; then
+    if [[ -n "$route_override" ]]; then
         matched_script=$(get_route_override_script "$route_override")
         target_app=$(get_route_override_target "$route_override")
         route_shortcut=$(get_route_override_shortcut "$route_override")
@@ -619,6 +614,11 @@ process_text_job_file() {
                 should_route=true
             fi
         fi
+    elif [[ -n "$spoken_matched_script" ]] && { $has_thank_you || $allow_without_thank_you; }; then
+        matched_script="$spoken_matched_script"
+        target_app="$spoken_target_app"
+        route_shortcut="$spoken_route_shortcut"
+        echo "${C_OK}🗣️ Typed route phrase:${C_RESET} '${pre_thank_you}'"
     else
         matched_script="$spoken_matched_script"
         target_app="$spoken_target_app"
@@ -1072,12 +1072,7 @@ PY
                 allow_without_thank_you=true
             fi
 
-            if [[ -n "$spoken_matched_script" ]] && { $has_thank_you || $allow_without_thank_you; }; then
-                matched_script="$spoken_matched_script"
-                target_app="$spoken_target_app"
-                route_shortcut="$spoken_route_shortcut"
-                echo "${C_OK}🗣️ Spoken route override:${C_RESET} '${pre_thank_you}'"
-            elif [[ -n "$route_override" ]]; then
+            if [[ -n "$route_override" ]]; then
                 matched_script=$(get_route_override_script "$route_override")
                 target_app=$(get_route_override_target "$route_override")
                 route_shortcut=$(get_route_override_shortcut "$route_override")
@@ -1095,6 +1090,11 @@ PY
                         should_route=true
                     fi
                 fi
+            elif [[ -n "$spoken_matched_script" ]] && { $has_thank_you || $allow_without_thank_you; }; then
+                matched_script="$spoken_matched_script"
+                target_app="$spoken_target_app"
+                route_shortcut="$spoken_route_shortcut"
+                echo "${C_OK}🗣️ Spoken route override:${C_RESET} '${pre_thank_you}'"
             else
                 matched_script="$spoken_matched_script"
                 target_app="$spoken_target_app"
