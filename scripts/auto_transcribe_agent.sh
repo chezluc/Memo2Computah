@@ -296,6 +296,83 @@ contains_route_marker() {
     esac
 }
 
+get_route_marker_prefix() {
+    local text="$1"
+    local audio_path="${2:-}"
+    python3 - "$text" "$audio_path" "$ROUTE_MARKER_MAX_SECONDS" "$ROUTE_MARKER_FALLBACK_MAX_WORDS" <<'PY'
+import re
+import subprocess
+import sys
+import unicodedata
+
+text, audio_path, max_seconds, fallback_max_words = sys.argv[1:]
+try:
+    max_seconds = float(max_seconds)
+except ValueError:
+    max_seconds = 10.0
+try:
+    fallback_max_words = int(fallback_max_words)
+except ValueError:
+    fallback_max_words = 35
+
+markers = [
+    "thank you",
+    "gracias",
+    "obrigado",
+    "obrigada",
+    "merci",
+    "danke",
+    "grazie",
+    "arigato",
+    "arigatou",
+    "xie xie",
+]
+
+def normalize(value):
+    value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
+    value = re.sub(r"[^A-Za-z0-9 ]+", " ", value).lower()
+    return re.sub(r"\s+", " ", value).strip()
+
+def audio_duration_seconds(path):
+    if not path:
+        return None
+    try:
+        output = subprocess.check_output(["afinfo", path], text=True, stderr=subprocess.DEVNULL)
+    except Exception:
+        return None
+    match = re.search(r"estimated duration:\s*([0-9.]+)\s*sec", output)
+    if not match:
+        return None
+    try:
+        return float(match.group(1))
+    except ValueError:
+        return None
+
+normalized = normalize(text)
+if not normalized:
+    sys.exit(1)
+
+pattern = re.compile(r"\b(" + "|".join(re.escape(marker) for marker in markers) + r")\b")
+match = pattern.search(normalized)
+if not match:
+    sys.exit(1)
+
+prefix = normalized[:match.start()].strip()
+words_before = len(re.findall(r"\b\w+\b", prefix))
+duration = audio_duration_seconds(audio_path)
+
+if duration and duration > 0:
+    total_words = max(1, len(re.findall(r"\b\w+\b", normalized)))
+    estimated_marker_seconds = (words_before / total_words) * duration
+    if estimated_marker_seconds > max_seconds:
+        sys.exit(1)
+elif words_before > fallback_max_words:
+    sys.exit(1)
+
+print(prefix)
+PY
+}
+
 strip_to_route_content() {
     python3 - "$1" <<'PY'
 import re
@@ -357,6 +434,8 @@ WHISPER_TEMPERATURE="${WHISPER_TEMPERATURE:-0}"
 WHISPER_CONDITION_ON_PREVIOUS_TEXT="${WHISPER_CONDITION_ON_PREVIOUS_TEXT:-False}"
 WHISPER_INITIAL_PROMPT="${WHISPER_INITIAL_PROMPT:-Voice command dictation. Preserve the original spoken language; do not translate. Preserve names, app names, and spelled-out letters exactly when possible. Routing terms include Codex, Claude Code, iA Writer, iTerm, WezTerm, Kitty, Tabby, Google Chrome, TextEdit, Messages, WhatsApp, Mail, Cursor, clipboard. Common phrases include thank you, main thank you, main number one, main number two, main number three, compose thank you.}"
 WHISPER_TIMEOUT_SECONDS="${WHISPER_TIMEOUT_SECONDS:-180}"
+ROUTE_MARKER_MAX_SECONDS="${ROUTE_MARKER_MAX_SECONDS:-10}"
+ROUTE_MARKER_FALLBACK_MAX_WORDS="${ROUTE_MARKER_FALLBACK_MAX_WORDS:-35}"
 
 load_transcription_settings() {
     local configured_model
@@ -529,6 +608,7 @@ process_text_job_file() {
     local filename timestamp job_id base_name job_output_dir transcript_file transcript_content
     local applescript_path should_route target_app submit_after_paste route_override response_mode
     local response_json_path response_before_file capture_text_response normalized_transcript pre_thank_you
+    local route_marker_prefix
     local matched_script route_shortcut has_thank_you allow_without_thank_you spoken_matched_script
     local spoken_target_app spoken_route_shortcut routed_transcript_file final_transcript_file transcript_preview
 
@@ -576,7 +656,7 @@ process_text_job_file() {
     fi
 
     normalized_transcript=$(normalize_text "$transcript_content")
-    pre_thank_you=$(printf '%s\n' "$normalized_transcript" | sed -E 's/(thank you|gracias|obrigado|obrigada|merci|danke|grazie|arigato|arigatou|xie xie).*$//')
+    pre_thank_you="$normalized_transcript"
     matched_script=""
     target_app=""
     route_shortcut=""
@@ -589,8 +669,15 @@ process_text_job_file() {
     if [[ "$spoken_target_app" == "iTerm2" ]]; then
         spoken_route_shortcut=$(extract_route_shortcut "$pre_thank_you")
     fi
-    if contains_route_marker "$normalized_transcript"; then
+    if route_marker_prefix=$(get_route_marker_prefix "$transcript_content"); then
         has_thank_you=true
+        pre_thank_you="$route_marker_prefix"
+        spoken_matched_script=$(get_app_script "$pre_thank_you")
+        spoken_target_app=$(get_app_target "$pre_thank_you")
+        spoken_route_shortcut=""
+        if [[ "$spoken_target_app" == "iTerm2" ]]; then
+            spoken_route_shortcut=$(extract_route_shortcut "$pre_thank_you")
+        fi
     fi
     if is_main_route "$pre_thank_you" && [[ -n "$spoken_route_shortcut" ]]; then
         allow_without_thank_you=true
@@ -1052,12 +1139,13 @@ PY
             fi
 
             normalized_transcript=$(normalize_text "$transcript_content")
-            pre_thank_you=$(printf '%s\n' "$normalized_transcript" | sed -E 's/(thank you|gracias|obrigado|obrigada|merci|danke|grazie|arigato|arigatou|xie xie).*$//')
+            pre_thank_you="$normalized_transcript"
             matched_script=""
             target_app=""
             route_shortcut=""
             has_thank_you=false
             allow_without_thank_you=false
+            route_marker_prefix=""
             spoken_matched_script=$(get_app_script "$pre_thank_you")
             spoken_target_app=$(get_app_target "$pre_thank_you")
             spoken_route_shortcut=""
@@ -1065,8 +1153,15 @@ PY
             if [[ "$spoken_target_app" == "iTerm2" ]]; then
                 spoken_route_shortcut=$(extract_route_shortcut "$pre_thank_you")
             fi
-            if contains_route_marker "$normalized_transcript"; then
+            if route_marker_prefix=$(get_route_marker_prefix "$transcript_content" "$audio_file"); then
                 has_thank_you=true
+                pre_thank_you="$route_marker_prefix"
+                spoken_matched_script=$(get_app_script "$pre_thank_you")
+                spoken_target_app=$(get_app_target "$pre_thank_you")
+                spoken_route_shortcut=""
+                if [[ "$spoken_target_app" == "iTerm2" ]]; then
+                    spoken_route_shortcut=$(extract_route_shortcut "$pre_thank_you")
+                fi
             fi
             if is_main_route "$pre_thank_you" && [[ -n "$spoken_route_shortcut" ]]; then
                 allow_without_thank_you=true
