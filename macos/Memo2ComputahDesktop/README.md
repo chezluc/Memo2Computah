@@ -10,6 +10,12 @@ Menu-bar macOS companion for Mobile Recorder.
 - Opens the watch folder and logs folder.
 - Writes the default route contract to `config/routes.json`.
 
+## Install
+
+Run `scripts/install_memo2_desktop_app.sh` from the repo root to build the
+desktop app, copy it to `/Applications/Memo2ComputahDesktop.app`, and register
+a user LaunchAgent so the app opens automatically at login.
+
 ## Product Direction
 
 The companion app should become the desktop source of truth for:
