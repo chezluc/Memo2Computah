@@ -131,6 +131,7 @@ get_route_override_script() {
         wezterm) echo "paste_transcription-wez.applescript" ;;
         kitty) echo "paste_transcription-kitty.applescript" ;;
         tabby) echo "paste_transcription-tabby.applescript" ;;
+        termius) echo "paste_transcription-termius.applescript" ;;
         *)
             local configured_target configured_kind
             configured_target=$(get_config_route_field "$1" "target")
@@ -158,6 +159,7 @@ get_route_override_target() {
         wezterm) echo "WezTerm" ;;
         kitty) echo "kitty" ;;
         tabby) echo "Tabby" ;;
+        termius) echo "Termius" ;;
         *)
             if [[ "$(get_config_route_field "$1" "kind")" == "app" ]]; then
                 get_config_route_field "$1" "target"

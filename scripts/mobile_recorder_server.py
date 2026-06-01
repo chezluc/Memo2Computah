@@ -107,6 +107,8 @@ def route_target_to_activation(route_target: str) -> tuple[str | None, str | Non
         return "kitty", None
     if normalized == "tabby":
         return "Tabby", None
+    if normalized == "termius":
+        return "Termius", None
     return None, None
 
 

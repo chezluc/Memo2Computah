@@ -97,6 +97,12 @@
       "kind" : "tmux",
       "label" : "Tabby",
       "target" : "voice_return"
+    },
+    {
+      "id" : "termius",
+      "kind" : "app",
+      "label" : "Termius",
+      "target" : "Termius"
     }
   ],
   "version" : 1

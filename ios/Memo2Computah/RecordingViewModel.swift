@@ -36,6 +36,7 @@ final class RecordingViewModel: NSObject, ObservableObject {
         case wezTerm
         case kitty
         case tabby
+        case termius
 
         var id: String { rawValue }
 
@@ -57,6 +58,7 @@ final class RecordingViewModel: NSObject, ObservableObject {
             case .wezTerm: return "WezTerm"
             case .kitty: return "Kitty"
             case .tabby: return "Tabby"
+            case .termius: return "Termius"
             }
         }
 
@@ -78,6 +80,7 @@ final class RecordingViewModel: NSObject, ObservableObject {
             case .wezTerm: return "wezterm"
             case .kitty: return "kitty"
             case .tabby: return "tabby"
+            case .termius: return "termius"
             }
         }
     }
@@ -316,7 +319,8 @@ final class RecordingViewModel: NSObject, ObservableObject {
     private static let showRouteSelectorOnRecorderDefaultsKey = "memo2Computah.showRouteSelectorOnRecorder"
     private static let showRouteButtonsOnRecorderDefaultsKey = "memo2Computah.showRouteButtonsOnRecorder"
     private static let quickRouteTargetsDefaultsKey = "memo2Computah.quickRouteTargets"
-    private static let defaultQuickRouteTargets: [RouteTarget] = [.kitty, .codex, .plexi]
+    private static let defaultQuickRouteTargets: [RouteTarget] = [.kitty, .codex, .plexi, .termius]
+    private static let termiusQuickRouteMigrationDefaultsKey = "memo2Computah.quickRouteTargets.addedTermius"
     private static let voiceCallModeDefaultsKey = "memo2Computah.voiceCallMode"
     private static let normalTranscriptionModeDefaultsKey = "memo2Computah.normalTranscriptionMode"
     private static let liveTranscriptPreviewDefaultsKey = "memo2Computah.liveTranscriptPreview"
@@ -659,7 +663,15 @@ final class RecordingViewModel: NSObject, ObservableObject {
             return defaultQuickRouteTargets
         }
         let storedValues = UserDefaults.standard.stringArray(forKey: quickRouteTargetsDefaultsKey) ?? []
-        return storedValues.compactMap(RouteTarget.init(rawValue:))
+        var routes = storedValues.compactMap(RouteTarget.init(rawValue:))
+        if UserDefaults.standard.object(forKey: termiusQuickRouteMigrationDefaultsKey) == nil {
+            if !routes.contains(.termius) {
+                routes.append(.termius)
+            }
+            UserDefaults.standard.set(true, forKey: termiusQuickRouteMigrationDefaultsKey)
+            UserDefaults.standard.set(routes.map(\.rawValue), forKey: quickRouteTargetsDefaultsKey)
+        }
+        return routes
     }
 
     private static func storedLANReceiverProfiles(defaultURL: String) -> [LANReceiverProfile] {
