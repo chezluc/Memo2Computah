@@ -327,8 +327,9 @@ final class RecordingViewModel: NSObject, ObservableObject {
     private static let liveTranscriptPauseDuration: TimeInterval = 1.9
     private static let callMaximumTurnDuration: TimeInterval = 45
     private static let callIdleRecycleDuration: TimeInterval = 90
-    static let defaultLANServerURLString = "http://192.168.15.3:8943"
+    static let defaultLANServerURLString = "http://192.168.15.4:8943"
     private static let retiredLANServerURLStrings = [
+        "http://192.168.15.3:8943",
         "http://192.168.15.14:8943"
     ]
 
