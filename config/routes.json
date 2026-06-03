@@ -103,6 +103,20 @@
       "kind" : "app",
       "label" : "Termius",
       "target" : "Termius"
+    },
+    {
+      "id" : "termius-prime-minister",
+      "kind" : "app",
+      "label" : "Prime Minister / Termius",
+      "shortcut" : "option-command-left",
+      "target" : "Termius"
+    },
+    {
+      "id" : "termius-director-chez-luc",
+      "kind" : "app",
+      "label" : "Director Chez Luc / Termius",
+      "shortcut" : "option-command-right",
+      "target" : "Termius"
     }
   ],
   "version" : 1

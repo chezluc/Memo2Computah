@@ -54,6 +54,8 @@ get_app_script() {
         *terminal*) echo "paste_transcription term.applescript" ;;
         *kitty*) echo "paste_transcription-kitty.applescript" ;;
         *tabby*|*taby*) echo "paste_transcription-tabby.applescript" ;;
+        *prime\ minister*) echo "paste_transcription generic.applescript" ;;
+        *director\ chez\ luc*) echo "paste_transcription generic.applescript" ;;
         *termius*) echo "paste_transcription-termius.applescript" ;;
         *wezterm*|*western*|*wez*) echo "paste_transcription-wez.applescript" ;;
         *iawriter*|*ia\ writer*|*i\ a\ writer*|*writer*|*compose*) echo "paste_transcription iawriter.applescript" ;;
@@ -78,6 +80,8 @@ get_app_target() {
         *terminal*) echo "Terminal" ;;
         *kitty*) echo "kitty" ;;
         *tabby*|*taby*) echo "Tabby" ;;
+        *prime\ minister*) echo "Termius" ;;
+        *director\ chez\ luc*) echo "Termius" ;;
         *termius*) echo "Termius" ;;
         *wezterm*|*western*|*wez*) echo "WezTerm" ;;
         *iawriter*|*ia\ writer*|*i\ a\ writer*|*writer*|*compose*) echo "iA Writer" ;;
@@ -235,6 +239,12 @@ is_main_route() {
 extract_route_shortcut() {
     local normalized="$1"
     case "$normalized" in
+        *" prime minister "*|prime\ minister*|*" prime minister")
+            echo "option-command-left"
+            ;;
+        *" director chez luc "*|director\ chez\ luc*|*" director chez luc")
+            echo "option-command-right"
+            ;;
         *" number 1 "*|*" window 1 "*|*" tab 1 "*|*" number one "*|*" window one "*|*" tab one "*|*" number one"|*" window one"|*" tab one"|*" number 1"|*" window 1"|*" tab 1"|one|1)
             echo "1"
             ;;
@@ -668,7 +678,7 @@ process_text_job_file() {
     spoken_target_app=$(get_app_target "$pre_thank_you")
     spoken_route_shortcut=""
 
-    if [[ "$spoken_target_app" == "iTerm2" ]]; then
+    if [[ "$spoken_target_app" == "iTerm2" || "$spoken_target_app" == "Termius" ]]; then
         spoken_route_shortcut=$(extract_route_shortcut "$pre_thank_you")
     fi
     if route_marker_prefix=$(get_route_marker_prefix "$transcript_content"); then
@@ -677,7 +687,7 @@ process_text_job_file() {
         spoken_matched_script=$(get_app_script "$pre_thank_you")
         spoken_target_app=$(get_app_target "$pre_thank_you")
         spoken_route_shortcut=""
-        if [[ "$spoken_target_app" == "iTerm2" ]]; then
+        if [[ "$spoken_target_app" == "iTerm2" || "$spoken_target_app" == "Termius" ]]; then
             spoken_route_shortcut=$(extract_route_shortcut "$pre_thank_you")
         fi
     fi
@@ -1152,7 +1162,7 @@ PY
             spoken_target_app=$(get_app_target "$pre_thank_you")
             spoken_route_shortcut=""
 
-            if [[ "$spoken_target_app" == "iTerm2" ]]; then
+            if [[ "$spoken_target_app" == "iTerm2" || "$spoken_target_app" == "Termius" ]]; then
                 spoken_route_shortcut=$(extract_route_shortcut "$pre_thank_you")
             fi
             if route_marker_prefix=$(get_route_marker_prefix "$transcript_content" "$audio_file"); then
@@ -1161,7 +1171,7 @@ PY
                 spoken_matched_script=$(get_app_script "$pre_thank_you")
                 spoken_target_app=$(get_app_target "$pre_thank_you")
                 spoken_route_shortcut=""
-                if [[ "$spoken_target_app" == "iTerm2" ]]; then
+                if [[ "$spoken_target_app" == "iTerm2" || "$spoken_target_app" == "Termius" ]]; then
                     spoken_route_shortcut=$(extract_route_shortcut "$pre_thank_you")
                 fi
             fi

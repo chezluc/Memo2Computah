@@ -37,6 +37,8 @@ final class RecordingViewModel: NSObject, ObservableObject {
         case kitty
         case tabby
         case termius
+        case termiusPrimeMinister
+        case termiusDirectorChezLuc
 
         var id: String { rawValue }
 
@@ -59,6 +61,8 @@ final class RecordingViewModel: NSObject, ObservableObject {
             case .kitty: return "Kitty"
             case .tabby: return "Tabby"
             case .termius: return "Termius"
+            case .termiusPrimeMinister: return "Prime Minister / Termius"
+            case .termiusDirectorChezLuc: return "Director Chez Luc / Termius"
             }
         }
 
@@ -81,6 +85,8 @@ final class RecordingViewModel: NSObject, ObservableObject {
             case .kitty: return "kitty"
             case .tabby: return "tabby"
             case .termius: return "termius"
+            case .termiusPrimeMinister: return "termius-prime-minister"
+            case .termiusDirectorChezLuc: return "termius-director-chez-luc"
             }
         }
     }
@@ -319,8 +325,9 @@ final class RecordingViewModel: NSObject, ObservableObject {
     private static let showRouteSelectorOnRecorderDefaultsKey = "memo2Computah.showRouteSelectorOnRecorder"
     private static let showRouteButtonsOnRecorderDefaultsKey = "memo2Computah.showRouteButtonsOnRecorder"
     private static let quickRouteTargetsDefaultsKey = "memo2Computah.quickRouteTargets"
-    private static let defaultQuickRouteTargets: [RouteTarget] = [.kitty, .codex, .plexi, .termius]
+    private static let defaultQuickRouteTargets: [RouteTarget] = [.kitty, .codex, .plexi, .termius, .termiusPrimeMinister, .termiusDirectorChezLuc]
     private static let termiusQuickRouteMigrationDefaultsKey = "memo2Computah.quickRouteTargets.addedTermius"
+    private static let termiusPaneQuickRouteMigrationDefaultsKey = "memo2Computah.quickRouteTargets.addedTermiusPanes"
     private static let voiceCallModeDefaultsKey = "memo2Computah.voiceCallMode"
     private static let normalTranscriptionModeDefaultsKey = "memo2Computah.normalTranscriptionMode"
     private static let liveTranscriptPreviewDefaultsKey = "memo2Computah.liveTranscriptPreview"
@@ -669,6 +676,13 @@ final class RecordingViewModel: NSObject, ObservableObject {
                 routes.append(.termius)
             }
             UserDefaults.standard.set(true, forKey: termiusQuickRouteMigrationDefaultsKey)
+            UserDefaults.standard.set(routes.map(\.rawValue), forKey: quickRouteTargetsDefaultsKey)
+        }
+        if UserDefaults.standard.object(forKey: termiusPaneQuickRouteMigrationDefaultsKey) == nil {
+            for route in [RouteTarget.termiusPrimeMinister, .termiusDirectorChezLuc] where !routes.contains(route) {
+                routes.append(route)
+            }
+            UserDefaults.standard.set(true, forKey: termiusPaneQuickRouteMigrationDefaultsKey)
             UserDefaults.standard.set(routes.map(\.rawValue), forKey: quickRouteTargetsDefaultsKey)
         }
         return routes

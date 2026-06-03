@@ -38,7 +38,7 @@ on run argv
 		end if
 
 		if routeSlot is not "" then
-			keystroke routeSlot using command down
+			my performRouteShortcut(routeSlot)
 			delay 0.35
 		end if
 
@@ -54,3 +54,15 @@ on run argv
 		delay focusDelay
 	end tell
 end run
+
+on performRouteShortcut(routeSlot)
+	tell application "System Events"
+		if routeSlot is "option-command-left" then
+			key code 123 using {option down, command down}
+		else if routeSlot is "option-command-right" then
+			key code 124 using {option down, command down}
+		else
+			keystroke routeSlot using command down
+		end if
+	end tell
+end performRouteShortcut

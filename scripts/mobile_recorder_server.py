@@ -109,6 +109,10 @@ def route_target_to_activation(route_target: str) -> tuple[str | None, str | Non
         return "Tabby", None
     if normalized == "termius":
         return "Termius", None
+    if normalized == "termius-prime-minister":
+        return "Termius", "option-command-left"
+    if normalized == "termius-director-chez-luc":
+        return "Termius", "option-command-right"
     return None, None
 
 
