@@ -338,8 +338,9 @@ final class RecordingViewModel: NSObject, ObservableObject {
     private static let liveTranscriptPauseDuration: TimeInterval = 1.9
     private static let callMaximumTurnDuration: TimeInterval = 45
     private static let callIdleRecycleDuration: TimeInterval = 90
-    static let defaultLANServerURLString = "http://192.168.15.4:8943"
+    static let defaultLANServerURLString = "http://192.168.8.113:8943"
     private static let retiredLANServerURLStrings = [
+        "http://192.168.15.4:8943",
         "http://192.168.15.3:8943",
         "http://192.168.15.14:8943"
     ]
@@ -692,7 +693,18 @@ final class RecordingViewModel: NSObject, ObservableObject {
         if let data = UserDefaults.standard.data(forKey: lanReceiverProfilesDefaultsKey),
            let profiles = try? JSONDecoder().decode([LANReceiverProfile].self, from: data),
            !profiles.isEmpty {
-            return profiles
+            let normalizedProfiles = profiles.map { profile in
+                LANReceiverProfile(
+                    id: profile.id,
+                    name: profile.name,
+                    urlString: normalizedLANServerURL(profile.urlString)
+                )
+            }
+            if normalizedProfiles != profiles,
+               let data = try? JSONEncoder().encode(normalizedProfiles) {
+                UserDefaults.standard.set(data, forKey: lanReceiverProfilesDefaultsKey)
+            }
+            return normalizedProfiles
         }
 
         return [
